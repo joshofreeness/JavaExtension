@@ -40,7 +40,7 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
 
     private final List<TypeParameter> typeParameters;
 
-    private final List<ClassOrInterfaceType> extendsList;
+    private  List<ClassOrInterfaceType> extendsList;
 
     private final List<ClassOrInterfaceType> implementsList;
 
@@ -74,6 +74,10 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
 
     public List<ClassOrInterfaceType> getExtends() {
         return extendsList;
+    }
+    
+    public void setExtends(List<ClassOrInterfaceType> input){
+    	extendsList = input;
     }
 
     public List<ClassOrInterfaceType> getImplements() {

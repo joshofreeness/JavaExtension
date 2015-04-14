@@ -42,10 +42,11 @@ public class A2Compiler {
 		ast.accept(extensionVisitor, null);
 		
 		HashMap<String, ClassOrInterfaceDeclaration> classMap = extensionVisitor.getAllClasses();
+		HashMap<String, ClassOrInterfaceType> typeMap = extensionVisitor.getAllTypes();
 		
 		if (extensionVisitor.someUsesExtendsAll){
 			AnalyseInheritance(classMap);
-			ChangeInheritanceToReal(classMap);
+			ChangeInheritanceToReal(classMap, typeMap);
 		}
 		
 		
@@ -61,7 +62,7 @@ public class A2Compiler {
 		writeToFile(javaFile, result);
 	}
 	
-	private static void ChangeInheritanceToReal(HashMap<String, ClassOrInterfaceDeclaration> map){
+	private static void ChangeInheritanceToReal(HashMap<String, ClassOrInterfaceDeclaration> map, HashMap<String, ClassOrInterfaceType> typeMap){
 		Collection<ClassOrInterfaceDeclaration> classes = map.values();
 		
 		ClassOrInterfaceDeclaration upmostClass = null;
@@ -85,6 +86,24 @@ public class A2Compiler {
 				if(c.getExtends().size()>0){
 					upmostClass = c;
 				}
+			}
+		}
+		
+		System.out.println(upmostClass.getName());
+		
+		classesInHierachy.remove(upmostClass); //remove so not duplicated in list
+		
+		for (ClassOrInterfaceDeclaration c : classesInHierachy){
+			System.out.println(c.getName());
+		}
+		
+		System.out.println(typeMap);
+		
+		for (int i = 0; i<classesInHierachy.size(); i++){
+			if (i == 0){
+				List<ClassOrInterfaceType> extendsList = classesInHierachy.get(i).getExtends();
+				extendsList.add(typeMap.get(upmostClass.getName()));
+				
 			}
 		}
 		

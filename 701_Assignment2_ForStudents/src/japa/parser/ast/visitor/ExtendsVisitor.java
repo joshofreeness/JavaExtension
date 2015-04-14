@@ -89,6 +89,7 @@ import japa.parser.ast.type.WildcardType;
 public class ExtendsVisitor implements VoidVisitor<Object>{
 
 	private HashMap<String, ClassOrInterfaceDeclaration> classHashMap = new HashMap<String, ClassOrInterfaceDeclaration>();
+	private HashMap<String, ClassOrInterfaceType> classTypeHashMap = new HashMap<String, ClassOrInterfaceType>();
 	public boolean someUsesExtendsAll = false;
 	
 	@Override
@@ -99,6 +100,11 @@ public class ExtendsVisitor implements VoidVisitor<Object>{
 	public HashMap<String, ClassOrInterfaceDeclaration> getAllClasses()
 	{
 		return classHashMap;
+	}
+	
+	public HashMap<String, ClassOrInterfaceType> getAllTypes()
+	{
+		return classTypeHashMap;
 	}
 
 	@Override
@@ -225,6 +231,7 @@ public class ExtendsVisitor implements VoidVisitor<Object>{
 
 	@Override
 	public void visit(ClassOrInterfaceType n, Object arg) {
+		classTypeHashMap.put(n.getName(), n);
 		
 	}
 
