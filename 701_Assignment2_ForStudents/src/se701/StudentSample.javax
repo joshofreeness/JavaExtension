@@ -1,6 +1,6 @@
 package se701;
 
-public class StudentSample extendsAll ExtendMe1, ExtendMe2{
+public class StudentSample extendsAll ExtendMe1, ExtendMe2, ExtendMe3, ExtendMe4, ExtendMe5, ExtendMe6{
 	
 	public static void main(String[] args) {
 		System.out.println(parents+ " " + otherParents);
@@ -8,17 +8,33 @@ public class StudentSample extendsAll ExtendMe1, ExtendMe2{
 }
 
 class ExtendMe1 extends ExtendMeAlso{
-	protected int otherParents = 1;
+	protected static int otherParents = 1;
 }
 
 class ExtendMe2 {
-	protected int parents = 2;
+	protected static int parents = 2;
+}
+
+class ExtendMe3 {
+	protected static int otherOtherParents = 5;
+}
+
+class ExtendMe4 {
+	protected static int otherOtherParents = 5;
+}
+
+class ExtendMe5 {
+	protected static int otherOtherParents = 5;
+}
+
+class ExtendMe6 {
+	protected static int otherOtherParents = 5;
 }
 
 class ExtendMeAlso{
-	protected int grandparents = 5;
+	protected static int grandparents = 5;
 }
 
 class ExtendMeSometimes{
-	protected int otherGrandparents = 7;
+	protected static int otherGrandparents = 7;
 }

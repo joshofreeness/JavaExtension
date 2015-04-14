@@ -92,7 +92,7 @@ public class A2Compiler {
 			}
 		}
 		
-		System.out.println(upmostClass.getName());
+		//System.out.println(upmostClass.getName());
 		
 		classesInHierachy.remove(upmostClass); //remove so not duplicated in list
 		
@@ -103,26 +103,35 @@ public class A2Compiler {
 		//System.out.println(typeMap);
 		
 		for (int i = 0; i<classesInHierachy.size(); i++){
-			if (i == 0){
-				System.out.println(typeMap);
-				System.out.println(upmostClass.getName());
+			
+				//System.out.println(typeMap);
+				//System.out.println(upmostClass.getName());
 				List<ClassOrInterfaceType> extendsList = classesInHierachy.get(i).getExtends();
 				if (extendsList == null){
 					extendsList = new ArrayList<ClassOrInterfaceType>();
 				}
+				
+			if (i == 0){	
 				ClassOrInterfaceType type = typeMap.get(upmostClass.getName());
 				extendsList.add(type);
 				
-				classesInHierachy.get(i).setExtends(extendsList);				
+				classesInHierachy.get(i).setExtends(extendsList);		
+			}else{
+			
+				ClassOrInterfaceType type = typeMap.get(classesInHierachy.get(i-1).getName());
+				extendsList.add(type);
 				
+				classesInHierachy.get(i).setExtends(extendsList);
 			}
+			
+			
 		}
 		
 	  
 		List<ClassOrInterfaceType> extendsAllList = new ArrayList<ClassOrInterfaceType>();
 		ClassOrInterfaceType type = typeMap.get(upmostClass.getName());
 		extendsAllList.add(typeMap.get(classesInHierachy.get(classesInHierachy.size()-1).getName()));
-		System.out.println(extendsAllList);
+		//System.out.println(extendsAllList);
 		extendAllClass.setExtends(extendsAllList);
 		
 		
