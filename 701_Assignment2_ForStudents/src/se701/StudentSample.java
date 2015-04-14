@@ -12,7 +12,7 @@ class ExtendMe1 extends ExtendMeAlso {
     protected int otherParents = 1;
 }
 
-class ExtendMe2 {
+class ExtendMe2 extends ExtendMe1 {
 
     protected int parents = 2;
 }

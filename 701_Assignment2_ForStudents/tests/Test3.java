@@ -12,7 +12,7 @@ public class Test3 extends ExtendMe1, ExtendMe2 {
 class ExtendMe1 extends Test {
 }
 
-class ExtendMe2 {
+class ExtendMe2 extends ExtendMe1 {
 }
 
 class Test {

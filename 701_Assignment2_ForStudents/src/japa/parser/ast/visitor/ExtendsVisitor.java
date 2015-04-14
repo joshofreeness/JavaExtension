@@ -1,6 +1,7 @@
 package japa.parser.ast.visitor;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import japa.parser.ast.BlockComment;
@@ -157,6 +158,17 @@ public class ExtendsVisitor implements VoidVisitor<Object>{
 //				//extendsClasses.get(i).accept(this, null);
 //			}
 		}
+		
+		if (n.getExtends() != null) {
+            //printer.print(" extends ");
+            for (Iterator<ClassOrInterfaceType> i = n.getExtends().iterator(); i.hasNext();) {
+                ClassOrInterfaceType c = i.next();
+                c.accept(this, arg);
+                //if (i.hasNext()) {
+                    //printer.print(", ");
+                //}
+            }
+        }
 		
 	}
 

@@ -97,12 +97,20 @@ public class A2Compiler {
 			System.out.println(c.getName());
 		}
 		
-		System.out.println(typeMap);
+		//System.out.println(typeMap);
 		
 		for (int i = 0; i<classesInHierachy.size(); i++){
 			if (i == 0){
+				System.out.println(typeMap);
+				System.out.println(upmostClass.getName());
 				List<ClassOrInterfaceType> extendsList = classesInHierachy.get(i).getExtends();
-				extendsList.add(typeMap.get(upmostClass.getName()));
+				if (extendsList == null){
+					extendsList = new ArrayList<ClassOrInterfaceType>();
+				}
+				ClassOrInterfaceType type = typeMap.get(upmostClass.getName());
+				extendsList.add(type);
+				
+				classesInHierachy.get(i).setExtends(extendsList);				
 				
 			}
 		}
