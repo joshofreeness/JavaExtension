@@ -21,3 +21,8 @@ class ExtendMeAlso {
 
     protected int grandparents = 5;
 }
+
+class ExtendMeSometimes {
+
+    protected int otherGrandparents = 7;
+}
