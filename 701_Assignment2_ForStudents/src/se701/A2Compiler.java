@@ -30,12 +30,6 @@ public class A2Compiler {
 		JavaParser parser = new JavaParser(new FileReader(file));
 		CompilationUnit ast = parser.CompilationUnit();
 		
-		// perform visit 1...
-//		SillyBreakVisitor semanticsVisitor = new SillyBreakVisitor();
-//		ast.accept(semanticsVisitor, null);
-		
-		// perform visit 2... etc etc 
-		// ...
 		
 		//perform visit in order to know whether and where extendAll is being appropriately used.
 		ExtendsVisitor extensionVisitor = new ExtendsVisitor();
@@ -44,6 +38,7 @@ public class A2Compiler {
 		HashMap<String, ClassOrInterfaceDeclaration> classMap = extensionVisitor.getAllClasses();
 		HashMap<String, ClassOrInterfaceType> typeMap = extensionVisitor.getAllTypes();
 		
+		//If it extends multiple then analyse and rearange the structure to work correctly for real java code
 		if (extensionVisitor.someUsesExtendsAll){
 			AnalyseInheritance(classMap);
 			ChangeInheritanceToReal(classMap, typeMap);
@@ -92,20 +87,15 @@ public class A2Compiler {
 			}
 		}
 		
-		//System.out.println(upmostClass.getName());
 		
 		classesInHierachy.remove(upmostClass); //remove so not duplicated in list
 		
-		for (ClassOrInterfaceDeclaration c : classesInHierachy){
-			System.out.println(c.getName());
-		}
 		
-		//System.out.println(typeMap);
 		
+		//for every class that the extendAll class extends, turn it into a sort of ladder of extension hierachy.
+		//The topmost must extend the top class (one that may or may not extend another class)
+		//and the lowest one in the heirachy must be extended by the extendAll class
 		for (int i = 0; i<classesInHierachy.size(); i++){
-			
-				//System.out.println(typeMap);
-				//System.out.println(upmostClass.getName());
 				List<ClassOrInterfaceType> extendsList = classesInHierachy.get(i).getExtends();
 				if (extendsList == null){
 					extendsList = new ArrayList<ClassOrInterfaceType>();
@@ -131,7 +121,6 @@ public class A2Compiler {
 		List<ClassOrInterfaceType> extendsAllList = new ArrayList<ClassOrInterfaceType>();
 		ClassOrInterfaceType type = typeMap.get(upmostClass.getName());
 		extendsAllList.add(typeMap.get(classesInHierachy.get(classesInHierachy.size()-1).getName()));
-		//System.out.println(extendsAllList);
 		extendAllClass.setExtends(extendsAllList);
 		
 		

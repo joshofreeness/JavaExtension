@@ -1,0 +1,38 @@
+public class Test5 extendsAll ExtendMe1, ExtendMe2, ExtendMe3, ExtendMe4, ExtendMe5, ExtendMe6{
+	
+	public static void main(String[] args) {
+		System.out.println(parents+ " " + otherParents);
+	}
+}
+
+class ExtendMe1 extends ExtendMeAlso{
+	protected static int otherParents = 1;
+}
+
+class ExtendMe2 {
+	protected static int parents = 2;
+}
+
+class ExtendMe3 {
+	protected static int otherOtherParents = 5; //fail
+}
+
+class ExtendMe4 {
+	protected static int otherOtherParents = 5;//fail
+}
+
+class ExtendMe5 {
+	protected static int otherOtherParents = 5;//fail
+}
+
+class ExtendMe6 {
+	protected static int otherOtherParents = 5;//fail
+}
+
+class ExtendMeAlso{
+	protected static int grandparents = 5;
+}
+
+class ExtendMeSometimes{
+	protected static int otherGrandparents = 7;
+}
