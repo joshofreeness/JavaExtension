@@ -1,4 +1,4 @@
-public class Test3 extends ExtendMe1, ExtendMe2 {
+public class Test3 extends ExtendMe2 {
 
     public void foo(boolean x) {
         b = 123;

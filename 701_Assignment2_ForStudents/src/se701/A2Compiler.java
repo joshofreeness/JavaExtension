@@ -66,12 +66,15 @@ public class A2Compiler {
 		Collection<ClassOrInterfaceDeclaration> classes = map.values();
 		
 		ClassOrInterfaceDeclaration upmostClass = null;
+		
+		ClassOrInterfaceDeclaration extendAllClass = null;
 	
 		List<ClassOrInterfaceDeclaration> classesInHierachy = new ArrayList<ClassOrInterfaceDeclaration>(); //Classes that the extendsAll class extends from
 		
 		//If any of the classes extends another class make that the highest class in the structure
 		for (ClassOrInterfaceDeclaration c : classes){
 			if (c.isExtendsMultiple()){
+				extendAllClass = c;
 				List<ClassOrInterfaceType> extendsList = c.getExtends();
 				for (ClassOrInterfaceType COrI : extendsList){ //for every class that it extends
 					ClassOrInterfaceDeclaration classDecleration = map.get(COrI.getName()); //Get the useful object
@@ -115,7 +118,12 @@ public class A2Compiler {
 			}
 		}
 		
-		
+	  
+		List<ClassOrInterfaceType> extendsAllList = new ArrayList<ClassOrInterfaceType>();
+		ClassOrInterfaceType type = typeMap.get(upmostClass.getName());
+		extendsAllList.add(typeMap.get(classesInHierachy.get(classesInHierachy.size()-1).getName()));
+		System.out.println(extendsAllList);
+		extendAllClass.setExtends(extendsAllList);
 		
 		
 		
