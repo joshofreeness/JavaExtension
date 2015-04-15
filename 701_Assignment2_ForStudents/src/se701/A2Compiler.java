@@ -15,6 +15,7 @@ import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.type.ClassOrInterfaceType;
+import japa.parser.ast.visitor.CreateScopesVisitor;
 import japa.parser.ast.visitor.ExtendsVisitor;
 import japa.parser.ast.visitor.SillyBreakVisitor;
 import japa.parser.ast.visitor.DumpVisitor;
@@ -31,6 +32,27 @@ public class A2Compiler {
 		CompilationUnit ast = parser.CompilationUnit();
 		
 		
+		PerformSourceToSource(ast);
+		
+		
+		CreateScopesVisitor scopeCreator = new CreateScopesVisitor(); 
+		ast.accept(scopeCreator, null);
+		
+		
+		
+		
+		// perform visit N 
+		DumpVisitor printVisitor = new DumpVisitor();
+		ast.accept(printVisitor, null);
+		
+		String result = printVisitor.getSource();
+		
+		// save the result into a *.java file, same level as the original file
+		File javaFile = getAsJavaFile(file);
+		writeToFile(javaFile, result);
+	}
+	
+	private static void PerformSourceToSource(CompilationUnit ast){
 		//perform visit in order to know whether and where extendAll is being appropriately used.
 		ExtendsVisitor extensionVisitor = new ExtendsVisitor();
 		ast.accept(extensionVisitor, null);
@@ -44,17 +66,6 @@ public class A2Compiler {
 			ChangeInheritanceToReal(classMap, typeMap);
 		}
 		
-		
-		
-		// perform visit N 
-		DumpVisitor printVisitor = new DumpVisitor();
-		ast.accept(printVisitor, null);
-		
-		String result = printVisitor.getSource();
-		
-		// save the result into a *.java file, same level as the original file
-		File javaFile = getAsJavaFile(file);
-		writeToFile(javaFile, result);
 	}
 	
 	private static void ChangeInheritanceToReal(HashMap<String, ClassOrInterfaceDeclaration> map, HashMap<String, ClassOrInterfaceType> typeMap){
