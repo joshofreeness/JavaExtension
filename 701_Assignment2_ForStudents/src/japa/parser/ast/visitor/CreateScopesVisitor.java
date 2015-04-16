@@ -1,5 +1,8 @@
 package japa.parser.ast.visitor;
 
+import java.util.Iterator;
+import java.util.List;
+
 import symtab.GlobalScope;
 import symtab.Scope;
 import japa.parser.ast.BlockComment;
@@ -22,6 +25,7 @@ import japa.parser.ast.body.InitializerDeclaration;
 import japa.parser.ast.body.JavadocComment;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.Parameter;
+import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.body.VariableDeclaratorId;
 import japa.parser.ast.expr.ArrayAccessExpr;
@@ -36,6 +40,7 @@ import japa.parser.ast.expr.ClassExpr;
 import japa.parser.ast.expr.ConditionalExpr;
 import japa.parser.ast.expr.DoubleLiteralExpr;
 import japa.parser.ast.expr.EnclosedExpr;
+import japa.parser.ast.expr.Expression;
 import japa.parser.ast.expr.FieldAccessExpr;
 import japa.parser.ast.expr.InstanceOfExpr;
 import japa.parser.ast.expr.IntegerLiteralExpr;
@@ -71,6 +76,7 @@ import japa.parser.ast.stmt.ForeachStmt;
 import japa.parser.ast.stmt.IfStmt;
 import japa.parser.ast.stmt.LabeledStmt;
 import japa.parser.ast.stmt.ReturnStmt;
+import japa.parser.ast.stmt.Statement;
 import japa.parser.ast.stmt.SwitchEntryStmt;
 import japa.parser.ast.stmt.SwitchStmt;
 import japa.parser.ast.stmt.SynchronizedStmt;
@@ -92,490 +98,584 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
 		currentScope = globalScope;
 	}
 
-	@Override
-	public void visit(Node n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(CompilationUnit n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(PackageDeclaration n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ImportDeclaration n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(TypeParameter n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(LineComment n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(BlockComment n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ClassOrInterfaceDeclaration n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(EnumDeclaration n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(EmptyTypeDeclaration n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(EnumConstantDeclaration n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(AnnotationDeclaration n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(AnnotationMemberDeclaration n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(FieldDeclaration n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(VariableDeclarator n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(VariableDeclaratorId n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ConstructorDeclaration n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(MethodDeclaration n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(Parameter n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(EmptyMemberDeclaration n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(InitializerDeclaration n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(JavadocComment n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ClassOrInterfaceType n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(PrimitiveType n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ReferenceType n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(VoidType n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(WildcardType n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ArrayAccessExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ArrayCreationExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ArrayInitializerExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(AssignExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(BinaryExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(CastExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ClassExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ConditionalExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(EnclosedExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(FieldAccessExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(InstanceOfExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(StringLiteralExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(IntegerLiteralExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(LongLiteralExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(IntegerLiteralMinValueExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(LongLiteralMinValueExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(CharLiteralExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(DoubleLiteralExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(BooleanLiteralExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(NullLiteralExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(MethodCallExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(NameExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ObjectCreationExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(QualifiedNameExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(SuperMemberAccessExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ThisExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(SuperExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(UnaryExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(VariableDeclarationExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(MarkerAnnotationExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(SingleMemberAnnotationExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(NormalAnnotationExpr n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(MemberValuePair n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ExplicitConstructorInvocationStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(TypeDeclarationStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(AssertStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(BlockStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(LabeledStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(EmptyStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ExpressionStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(SwitchStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(SwitchEntryStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(BreakStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ReturnStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(IfStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(WhileStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ContinueStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(DoStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ForeachStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ForStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ThrowStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(SynchronizedStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(TryStmt n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(CatchClause n, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
+    public void visit(Node n, Object arg) {
+        throw new IllegalStateException(n.getClass().getName());
+    }
+
+    public void visit(CompilationUnit n, Object arg) {
+        if (n.getPakage() != null) {
+            n.getPakage().accept(this, arg);
+        }
+        if (n.getImports() != null) {
+            for (ImportDeclaration i : n.getImports()) {
+                i.accept(this, arg);
+            }
+        }
+        if (n.getTypes() != null) {
+        	List<TypeDeclaration> types =  n.getTypes();
+        	boolean usesExtend = false;
+        	for (int i=0; i<types.size(); i++){
+        		//printer.printLn(types.get(i).);
+        	}
+        	for (int i=0; i<types.size(); i++){
+        		types.get(i).accept(this, arg);
+                
+        	}
+        	
+//            for (Iterator<TypeDeclaration> i = n.getTypes().iterator(); i.hasNext();) {
+//                i.next().accept(this, arg);
+//                
+//                printer.printLn();
+//                if (i.hasNext()) {
+//                    printer.printLn();
+//                }
+//            }
+        }
+    }
+
+    public void visit(PackageDeclaration n, Object arg) {
+        n.getName().accept(this, arg);
+    }
+
+    public void visit(NameExpr n, Object arg) {
+    }
+
+    public void visit(QualifiedNameExpr n, Object arg) {
+        n.getQualifier().accept(this, arg);
+    }
+
+    public void visit(ImportDeclaration n, Object arg) {
+        n.getName().accept(this, arg);
+    }
+
+    public void visit(ClassOrInterfaceDeclaration n, Object arg) {
+        if (n.getJavaDoc() != null) {
+            n.getJavaDoc().accept(this, arg);
+        }
+        
+
+        if (n.getExtends() != null) {
+            for (Iterator<ClassOrInterfaceType> i = n.getExtends().iterator(); i.hasNext();) {
+                ClassOrInterfaceType c = i.next();
+                c.accept(this, arg);
+            }
+        }
+
+        if (n.getImplements() != null) {
+            for (Iterator<ClassOrInterfaceType> i = n.getImplements().iterator(); i.hasNext();) {
+                ClassOrInterfaceType c = i.next();
+                c.accept(this, arg);
+            }
+        }
+    }
+
+    public void visit(EmptyTypeDeclaration n, Object arg) {
+        if (n.getJavaDoc() != null) {
+            n.getJavaDoc().accept(this, arg);
+        }
+    }
+
+    public void visit(JavadocComment n, Object arg) {
+    }
+
+    public void visit(ClassOrInterfaceType n, Object arg) {
+        if (n.getScope() != null) {
+            n.getScope().accept(this, arg);
+        }
+    }
+
+    public void visit(TypeParameter n, Object arg) {
+        if (n.getTypeBound() != null) {
+            for (Iterator<ClassOrInterfaceType> i = n.getTypeBound().iterator(); i.hasNext();) {
+                ClassOrInterfaceType c = i.next();
+                c.accept(this, arg);
+            }
+        }
+    }
+
+    public void visit(PrimitiveType n, Object arg) {
+    }
+
+    public void visit(ReferenceType n, Object arg) {
+        n.getType().accept(this, arg);
+    }
+
+    public void visit(WildcardType n, Object arg) {
+        if (n.getExtends() != null) {
+            n.getExtends().accept(this, arg);
+        }
+        if (n.getSuper() != null) {
+            n.getSuper().accept(this, arg);
+        }
+    }
+
+    public void visit(FieldDeclaration n, Object arg) {
+        if (n.getJavaDoc() != null) {
+            n.getJavaDoc().accept(this, arg);
+        }
+        n.getType().accept(this, arg);
+
+        for (Iterator<VariableDeclarator> i = n.getVariables().iterator(); i.hasNext();) {
+            VariableDeclarator var = i.next();
+            var.accept(this, arg);
+        }
+
+    }
+
+    public void visit(VariableDeclarator n, Object arg) {
+        n.getId().accept(this, arg);
+        if (n.getInit() != null) {
+            n.getInit().accept(this, arg);
+        }
+    }
+
+    public void visit(VariableDeclaratorId n, Object arg) {
+    }
+
+    public void visit(ArrayInitializerExpr n, Object arg) {
+        if (n.getValues() != null) {
+            for (Iterator<Expression> i = n.getValues().iterator(); i.hasNext();) {
+                Expression expr = i.next();
+                expr.accept(this, arg);
+            }
+        }
+    }
+
+    public void visit(VoidType n, Object arg) {
+    }
+
+    public void visit(ArrayAccessExpr n, Object arg) {
+        n.getName().accept(this, arg);
+        n.getIndex().accept(this, arg);
+    }
+
+    public void visit(ArrayCreationExpr n, Object arg) {
+        n.getType().accept(this, arg);
+
+        if (n.getDimensions() != null) {
+            for (Expression dim : n.getDimensions()) {
+                dim.accept(this, arg);
+            }
+        } else {
+            n.getInitializer().accept(this, arg);
+        }
+    }
+
+    public void visit(AssignExpr n, Object arg) {
+        n.getTarget().accept(this, arg);
+        n.getValue().accept(this, arg);
+    }
+
+    public void visit(BinaryExpr n, Object arg) {
+        n.getLeft().accept(this, arg);
+        n.getRight().accept(this, arg);
+    }
+
+    public void visit(CastExpr n, Object arg) {
+        n.getType().accept(this, arg);
+        n.getExpr().accept(this, arg);
+    }
+
+    public void visit(ClassExpr n, Object arg) {
+        n.getType().accept(this, arg);
+    }
+
+    public void visit(ConditionalExpr n, Object arg) {
+        n.getCondition().accept(this, arg);
+        n.getThenExpr().accept(this, arg);
+        n.getElseExpr().accept(this, arg);
+    }
+
+    public void visit(EnclosedExpr n, Object arg) {
+        n.getInner().accept(this, arg);
+    }
+
+    public void visit(FieldAccessExpr n, Object arg) {
+        n.getScope().accept(this, arg);
+    }
+
+    public void visit(InstanceOfExpr n, Object arg) {
+        n.getExpr().accept(this, arg);
+        n.getType().accept(this, arg);
+    }
+
+    public void visit(CharLiteralExpr n, Object arg) {
+    }
+
+    public void visit(DoubleLiteralExpr n, Object arg) {
+    }
+
+    public void visit(IntegerLiteralExpr n, Object arg) {
+    }
+
+    public void visit(LongLiteralExpr n, Object arg) {
+    }
+
+    public void visit(IntegerLiteralMinValueExpr n, Object arg) {
+    }
+
+    public void visit(LongLiteralMinValueExpr n, Object arg) {
+    }
+
+    public void visit(StringLiteralExpr n, Object arg) {
+    }
+
+    public void visit(BooleanLiteralExpr n, Object arg) {
+    }
+
+    public void visit(NullLiteralExpr n, Object arg) {
+    }
+
+    public void visit(ThisExpr n, Object arg) {
+        if (n.getClassExpr() != null) {
+            n.getClassExpr().accept(this, arg);
+        }
+    }
+
+    public void visit(SuperExpr n, Object arg) {
+        if (n.getClassExpr() != null) {
+            n.getClassExpr().accept(this, arg);
+        }
+    }
+
+    public void visit(MethodCallExpr n, Object arg) {
+        if (n.getScope() != null) {
+            n.getScope().accept(this, arg);
+        }
+        if (n.getArgs() != null) {
+            for (Iterator<Expression> i = n.getArgs().iterator(); i.hasNext();) {
+                Expression e = i.next();
+                e.accept(this, arg);
+            }
+        }
+    }
+
+    public void visit(ObjectCreationExpr n, Object arg) {
+        if (n.getScope() != null) {
+            n.getScope().accept(this, arg);
+        }
+
+
+        n.getType().accept(this, arg);
+
+        if (n.getArgs() != null) {
+            for (Iterator<Expression> i = n.getArgs().iterator(); i.hasNext();) {
+                Expression e = i.next();
+                e.accept(this, arg);
+            }
+        }
+
+    }
+
+    public void visit(SuperMemberAccessExpr n, Object arg) {
+    }
+
+    public void visit(UnaryExpr n, Object arg) {
+
+        n.getExpr().accept(this, arg);
+
+    }
+
+    public void visit(ConstructorDeclaration n, Object arg) {
+        if (n.getJavaDoc() != null) {
+            n.getJavaDoc().accept(this, arg);
+        }
+        if (n.getParameters() != null) {
+            for (Iterator<Parameter> i = n.getParameters().iterator(); i.hasNext();) {
+                Parameter p = i.next();
+                p.accept(this, arg);
+            }
+        }
+
+        if (n.getThrows() != null) {
+            for (Iterator<NameExpr> i = n.getThrows().iterator(); i.hasNext();) {
+                NameExpr name = i.next();
+                name.accept(this, arg);
+            }
+        }
+        n.getBlock().accept(this, arg);
+    }
+
+    public void visit(MethodDeclaration n, Object arg) {
+        if (n.getJavaDoc() != null) {
+            n.getJavaDoc().accept(this, arg);
+        }
+
+        n.getType().accept(this, arg);
+        if (n.getParameters() != null) {
+            for (Iterator<Parameter> i = n.getParameters().iterator(); i.hasNext();) {
+                Parameter p = i.next();
+                p.accept(this, arg);
+            }
+        }
+
+
+        if (n.getThrows() != null) {
+            for (Iterator<NameExpr> i = n.getThrows().iterator(); i.hasNext();) {
+                NameExpr name = i.next();
+                name.accept(this, arg);
+            }
+        }
+        if (n.getBody() == null) {
+        } else {
+            n.getBody().accept(this, arg);
+        }
+    }
+
+    public void visit(Parameter n, Object arg) {
+
+        n.getType().accept(this, arg);
+        n.getId().accept(this, arg);
+    }
+
+    public void visit(ExplicitConstructorInvocationStmt n, Object arg) {
+        if (n.isThis()) {
+        } else {
+            if (n.getExpr() != null) {
+                n.getExpr().accept(this, arg);
+            }
+        }
+        if (n.getArgs() != null) {
+            for (Iterator<Expression> i = n.getArgs().iterator(); i.hasNext();) {
+                Expression e = i.next();
+                e.accept(this, arg);
+            }
+        }
+    }
+
+    public void visit(TypeDeclarationStmt n, Object arg) {
+        n.getTypeDeclaration().accept(this, arg);
+    }
+
+    public void visit(AssertStmt n, Object arg) {
+        n.getCheck().accept(this, arg);
+        if (n.getMessage() != null) {
+            n.getMessage().accept(this, arg);
+        }
+    }
+
+    public void visit(BlockStmt n, Object arg) {
+        if (n.getStmts() != null) {
+            for (Statement s : n.getStmts()) {
+                s.accept(this, arg);
+            }
+        }
+
+    }
+
+    public void visit(LabeledStmt n, Object arg) {
+        n.getStmt().accept(this, arg);
+    }
+
+    public void visit(EmptyStmt n, Object arg) {
+    }
+
+    public void visit(ExpressionStmt n, Object arg) {
+        n.getExpression().accept(this, arg);
+    }
+
+    public void visit(SwitchStmt n, Object arg) {
+        n.getSelector().accept(this, arg);
+        if (n.getEntries() != null) {
+            for (SwitchEntryStmt e : n.getEntries()) {
+                e.accept(this, arg);
+            }
+        }
+
+    }
+
+    public void visit(SwitchEntryStmt n, Object arg) {
+        if (n.getLabel() != null) {
+            n.getLabel().accept(this, arg);
+        } else {
+        }
+        if (n.getStmts() != null) {
+            for (Statement s : n.getStmts()) {
+                s.accept(this, arg);
+            }
+        }
+    }
+
+    public void visit(BreakStmt n, Object arg) {
+    }
+
+    public void visit(ReturnStmt n, Object arg) {
+        if (n.getExpr() != null) {
+            n.getExpr().accept(this, arg);
+        }
+    }
+
+    public void visit(EnumDeclaration n, Object arg) {
+        if (n.getJavaDoc() != null) {
+            n.getJavaDoc().accept(this, arg);
+        }
+
+        if (n.getImplements() != null) {
+            for (Iterator<ClassOrInterfaceType> i = n.getImplements().iterator(); i.hasNext();) {
+                ClassOrInterfaceType c = i.next();
+                c.accept(this, arg);
+            }
+        }
+
+        if (n.getEntries() != null) {
+            for (Iterator<EnumConstantDeclaration> i = n.getEntries().iterator(); i.hasNext();) {
+                EnumConstantDeclaration e = i.next();
+                e.accept(this, arg);
+            }
+        }
+    }
+
+    public void visit(EnumConstantDeclaration n, Object arg) {
+        if (n.getJavaDoc() != null) {
+            n.getJavaDoc().accept(this, arg);
+        }
+
+        if (n.getArgs() != null) {
+            for (Iterator<Expression> i = n.getArgs().iterator(); i.hasNext();) {
+                Expression e = i.next();
+                e.accept(this, arg);
+            }
+        }
+
+    }
+
+    public void visit(EmptyMemberDeclaration n, Object arg) {
+        if (n.getJavaDoc() != null) {
+            n.getJavaDoc().accept(this, arg);
+        }
+    }
+
+    public void visit(InitializerDeclaration n, Object arg) {
+        if (n.getJavaDoc() != null) {
+            n.getJavaDoc().accept(this, arg);
+        }
+        n.getBlock().accept(this, arg);
+    }
+
+    public void visit(IfStmt n, Object arg) {
+        n.getCondition().accept(this, arg);
+        n.getThenStmt().accept(this, arg);
+        if (n.getElseStmt() != null) {
+            n.getElseStmt().accept(this, arg);
+        }
+    }
+
+    public void visit(WhileStmt n, Object arg) {
+        n.getCondition().accept(this, arg);
+        n.getBody().accept(this, arg);
+    }
+
+    public void visit(ContinueStmt n, Object arg) {
+    }
+
+    public void visit(DoStmt n, Object arg) {
+        n.getBody().accept(this, arg);
+        n.getCondition().accept(this, arg);
+    }
+
+    public void visit(ForeachStmt n, Object arg) {
+        n.getVariable().accept(this, arg);
+        n.getIterable().accept(this, arg);
+        n.getBody().accept(this, arg);
+    }
+
+    public void visit(ForStmt n, Object arg) {
+        if (n.getInit() != null) {
+            for (Iterator<Expression> i = n.getInit().iterator(); i.hasNext();) {
+                Expression e = i.next();
+                e.accept(this, arg);
+            }
+        }
+        if (n.getCompare() != null) {
+            n.getCompare().accept(this, arg);
+        }
+        if (n.getUpdate() != null) {
+            for (Iterator<Expression> i = n.getUpdate().iterator(); i.hasNext();) {
+                Expression e = i.next();
+                e.accept(this, arg);
+            }
+        }
+        n.getBody().accept(this, arg);
+    }
+
+    public void visit(ThrowStmt n, Object arg) {
+        n.getExpr().accept(this, arg);
+    }
+
+    public void visit(SynchronizedStmt n, Object arg) {
+        n.getExpr().accept(this, arg);
+        n.getBlock().accept(this, arg);
+    }
+
+    public void visit(TryStmt n, Object arg) {
+        n.getTryBlock().accept(this, arg);
+        if (n.getCatchs() != null) {
+            for (CatchClause c : n.getCatchs()) {
+                c.accept(this, arg);
+            }
+        }
+        if (n.getFinallyBlock() != null) {
+            n.getFinallyBlock().accept(this, arg);
+        }
+    }
+
+    public void visit(CatchClause n, Object arg) {
+        n.getExcept().accept(this, arg);
+        n.getCatchBlock().accept(this, arg);
+
+    }
+
+    public void visit(AnnotationDeclaration n, Object arg) {
+        if (n.getJavaDoc() != null) {
+            n.getJavaDoc().accept(this, arg);
+        }
+    }
+
+    public void visit(AnnotationMemberDeclaration n, Object arg) {
+        if (n.getJavaDoc() != null) {
+            n.getJavaDoc().accept(this, arg);
+        }
+
+        n.getType().accept(this, arg);
+        if (n.getDefaultValue() != null) {
+            n.getDefaultValue().accept(this, arg);
+        }
+    }
+
+    public void visit(MarkerAnnotationExpr n, Object arg) {
+        n.getName().accept(this, arg);
+    }
+
+    public void visit(SingleMemberAnnotationExpr n, Object arg) {
+        n.getName().accept(this, arg);
+        n.getMemberValue().accept(this, arg);
+    }
+
+    public void visit(NormalAnnotationExpr n, Object arg) {
+        n.getName().accept(this, arg);
+        for (Iterator<MemberValuePair> i = n.getPairs().iterator(); i.hasNext();) {
+            MemberValuePair m = i.next();
+            m.accept(this, arg);
+        }
+    }
+
+    public void visit(MemberValuePair n, Object arg) {
+        n.getValue().accept(this, arg);
+    }
+
+    public void visit(LineComment n, Object arg) {
+    }
+
+    public void visit(BlockComment n, Object arg) {
+    }
+
+    public void visit(VariableDeclarationExpr n, Object arg) {
+
+        n.getType().accept(this, arg);
+
+        for (Iterator<VariableDeclarator> i = n.getVars().iterator(); i.hasNext();) {
+            VariableDeclarator v = i.next();
+            v.accept(this, arg);
+        }
+    }
 }
