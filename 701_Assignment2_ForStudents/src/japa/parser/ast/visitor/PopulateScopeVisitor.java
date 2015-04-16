@@ -3,10 +3,7 @@ package japa.parser.ast.visitor;
 import java.util.Iterator;
 import java.util.List;
 
-import symtab.ClassSymbol;
 import symtab.GlobalScope;
-import symtab.LocalScope;
-import symtab.MethodSymbol;
 import symtab.Scope;
 import japa.parser.ast.BlockComment;
 import japa.parser.ast.CompilationUnit;
@@ -93,20 +90,15 @@ import japa.parser.ast.type.ReferenceType;
 import japa.parser.ast.type.VoidType;
 import japa.parser.ast.type.WildcardType;
 
-public class CreateScopesVisitor implements VoidVisitor<Object> {
+public class PopulateScopeVisitor implements VoidVisitor<Object> {
 	
-	private Scope currentScope;
-
-	public CreateScopesVisitor(GlobalScope globalScope) {
-		currentScope = globalScope;
-	}
+	
 
     public void visit(Node n, Object arg) {
         throw new IllegalStateException(n.getClass().getName());
     }
 
     public void visit(CompilationUnit n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getPakage() != null) {
             n.getPakage().accept(this, arg);
         }
@@ -126,28 +118,21 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(PackageDeclaration n, Object arg) {
-    	n.setScope(currentScope);
         n.getName().accept(this, arg);
     }
 
     public void visit(NameExpr n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(QualifiedNameExpr n, Object arg) {
-    	n.setScope(currentScope);
         n.getQualifier().accept(this, arg);
     }
 
     public void visit(ImportDeclaration n, Object arg) {
-    	n.setScope(currentScope);
         n.getName().accept(this, arg);
     }
 
     public void visit(ClassOrInterfaceDeclaration n, Object arg) {
-    	Scope newScope = new ClassSymbol(n.getName(), currentScope); //new class scope
-    	currentScope = newScope;
-    	n.setScope(currentScope);
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
         }
@@ -166,30 +151,24 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
                 c.accept(this, arg);
             }
         }
-        
-        currentScope = currentScope.getEnclosingScope(); //return to parent scope
     }
 
     public void visit(EmptyTypeDeclaration n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
         }
     }
 
     public void visit(JavadocComment n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(ClassOrInterfaceType n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getScope() != null) {
             n.getScope().accept(this, arg);
         }
     }
 
     public void visit(TypeParameter n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getTypeBound() != null) {
             for (Iterator<ClassOrInterfaceType> i = n.getTypeBound().iterator(); i.hasNext();) {
                 ClassOrInterfaceType c = i.next();
@@ -199,16 +178,13 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(PrimitiveType n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(ReferenceType n, Object arg) {
-    	n.setScope(currentScope);
         n.getType().accept(this, arg);
     }
 
     public void visit(WildcardType n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getExtends() != null) {
             n.getExtends().accept(this, arg);
         }
@@ -218,7 +194,6 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(FieldDeclaration n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
         }
@@ -232,7 +207,6 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(VariableDeclarator n, Object arg) {
-    	n.setScope(currentScope);
         n.getId().accept(this, arg);
         if (n.getInit() != null) {
             n.getInit().accept(this, arg);
@@ -240,11 +214,9 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(VariableDeclaratorId n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(ArrayInitializerExpr n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getValues() != null) {
             for (Iterator<Expression> i = n.getValues().iterator(); i.hasNext();) {
                 Expression expr = i.next();
@@ -254,17 +226,14 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(VoidType n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(ArrayAccessExpr n, Object arg) {
-    	n.setScope(currentScope);
         n.getName().accept(this, arg);
         n.getIndex().accept(this, arg);
     }
 
     public void visit(ArrayCreationExpr n, Object arg) {
-    	n.setScope(currentScope);
         n.getType().accept(this, arg);
 
         if (n.getDimensions() != null) {
@@ -277,103 +246,83 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(AssignExpr n, Object arg) {
-    	n.setScope(currentScope);
         n.getTarget().accept(this, arg);
         n.getValue().accept(this, arg);
     }
 
     public void visit(BinaryExpr n, Object arg) {
-    	n.setScope(currentScope);
         n.getLeft().accept(this, arg);
         n.getRight().accept(this, arg);
     }
 
     public void visit(CastExpr n, Object arg) {
-    	n.setScope(currentScope);
         n.getType().accept(this, arg);
         n.getExpr().accept(this, arg);
     }
 
     public void visit(ClassExpr n, Object arg) {
-    	n.setScope(currentScope);
         n.getType().accept(this, arg);
     }
 
     public void visit(ConditionalExpr n, Object arg) {
-    	n.setScope(currentScope);
         n.getCondition().accept(this, arg);
         n.getThenExpr().accept(this, arg);
         n.getElseExpr().accept(this, arg);
     }
 
     public void visit(EnclosedExpr n, Object arg) {
-    	n.setScope(currentScope);
         n.getInner().accept(this, arg);
     }
 
     public void visit(FieldAccessExpr n, Object arg) {
-    	n.setScope(currentScope);
         n.getScope().accept(this, arg);
     }
 
     public void visit(InstanceOfExpr n, Object arg) {
-    	n.setScope(currentScope);
         n.getExpr().accept(this, arg);
         n.getType().accept(this, arg);
     }
 
     public void visit(CharLiteralExpr n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(DoubleLiteralExpr n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(IntegerLiteralExpr n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(LongLiteralExpr n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(IntegerLiteralMinValueExpr n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(LongLiteralMinValueExpr n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(StringLiteralExpr n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(BooleanLiteralExpr n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(NullLiteralExpr n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(ThisExpr n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getClassExpr() != null) {
             n.getClassExpr().accept(this, arg);
         }
     }
 
     public void visit(SuperExpr n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getClassExpr() != null) {
             n.getClassExpr().accept(this, arg);
         }
     }
 
     public void visit(MethodCallExpr n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getScope() != null) {
             n.getScope().accept(this, arg);
         }
@@ -386,7 +335,6 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(ObjectCreationExpr n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getScope() != null) {
             n.getScope().accept(this, arg);
         }
@@ -404,18 +352,15 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(SuperMemberAccessExpr n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(UnaryExpr n, Object arg) {
-    	n.setScope(currentScope);
 
         n.getExpr().accept(this, arg);
 
     }
 
     public void visit(ConstructorDeclaration n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
         }
@@ -436,9 +381,6 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(MethodDeclaration n, Object arg) {
-    	Scope newScope = new MethodSymbol(n.getName(), currentScope);
-    	currentScope = newScope;
-    	n.setScope(currentScope);
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
         }
@@ -462,19 +404,15 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
         } else {
             n.getBody().accept(this, arg);
         }
-        
-        currentScope = currentScope.getEnclosingScope();
     }
 
     public void visit(Parameter n, Object arg) {
-    	n.setScope(currentScope);
 
         n.getType().accept(this, arg);
         n.getId().accept(this, arg);
     }
 
     public void visit(ExplicitConstructorInvocationStmt n, Object arg) {
-    	n.setScope(currentScope);
         if (n.isThis()) {
         } else {
             if (n.getExpr() != null) {
@@ -490,12 +428,10 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(TypeDeclarationStmt n, Object arg) {
-    	n.setScope(currentScope);
         n.getTypeDeclaration().accept(this, arg);
     }
 
     public void visit(AssertStmt n, Object arg) {
-    	n.setScope(currentScope);
         n.getCheck().accept(this, arg);
         if (n.getMessage() != null) {
             n.getMessage().accept(this, arg);
@@ -503,45 +439,36 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(BlockStmt n, Object arg) {
-    	currentScope = new LocalScope("",currentScope);
-    	n.setScope(currentScope);
         if (n.getStmts() != null) {
             for (Statement s : n.getStmts()) {
                 s.accept(this, arg);
             }
         }
-        currentScope = currentScope.getEnclosingScope();
+
     }
 
     public void visit(LabeledStmt n, Object arg) {
-    	n.setScope(currentScope);
         n.getStmt().accept(this, arg);
     }
 
     public void visit(EmptyStmt n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(ExpressionStmt n, Object arg) {
-    	n.setScope(currentScope);
         n.getExpression().accept(this, arg);
     }
 
     public void visit(SwitchStmt n, Object arg) {
-    	currentScope = new LocalScope("",currentScope);
-    	n.setScope(currentScope);
         n.getSelector().accept(this, arg);
         if (n.getEntries() != null) {
             for (SwitchEntryStmt e : n.getEntries()) {
                 e.accept(this, arg);
             }
         }
-        currentScope = currentScope.getEnclosingScope();
 
     }
 
     public void visit(SwitchEntryStmt n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getLabel() != null) {
             n.getLabel().accept(this, arg);
         } else {
@@ -554,18 +481,15 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(BreakStmt n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(ReturnStmt n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getExpr() != null) {
             n.getExpr().accept(this, arg);
         }
     }
 
     public void visit(EnumDeclaration n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
         }
@@ -586,9 +510,6 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(EnumConstantDeclaration n, Object arg) {
-    	Scope newScope = new LocalScope(n.getName(), currentScope);
-    	currentScope = newScope;
-    	n.setScope(currentScope);
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
         }
@@ -599,69 +520,50 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
                 e.accept(this, arg);
             }
         }
-        
-        currentScope = currentScope.getEnclosingScope();
 
     }
 
     public void visit(EmptyMemberDeclaration n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
         }
     }
 
     public void visit(InitializerDeclaration n, Object arg) {
-    	currentScope = new LocalScope("", currentScope);
-    	n.setScope(currentScope);
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
         }
         n.getBlock().accept(this, arg);
-        currentScope = currentScope.getEnclosingScope();
     }
 
     public void visit(IfStmt n, Object arg) {
-    	currentScope = new LocalScope("",currentScope);
-    	n.setScope(currentScope);
         n.getCondition().accept(this, arg);
         n.getThenStmt().accept(this, arg);
         if (n.getElseStmt() != null) {
             n.getElseStmt().accept(this, arg);
         }
-        currentScope = currentScope.getEnclosingScope();
     }
 
     public void visit(WhileStmt n, Object arg) {
-    	currentScope = new LocalScope("",currentScope);
-    	n.setScope(currentScope);
         n.getCondition().accept(this, arg);
         n.getBody().accept(this, arg);
-        currentScope = currentScope.getEnclosingScope();
     }
 
     public void visit(ContinueStmt n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(DoStmt n, Object arg) {
-    	n.setScope(currentScope);
         n.getBody().accept(this, arg);
         n.getCondition().accept(this, arg);
     }
 
     public void visit(ForeachStmt n, Object arg) {
-    	currentScope = new LocalScope("",currentScope);
-    	n.setScope(currentScope);
         n.getVariable().accept(this, arg);
         n.getIterable().accept(this, arg);
         n.getBody().accept(this, arg);
-        currentScope = currentScope.getEnclosingScope();
     }
 
     public void visit(ForStmt n, Object arg) {
-    	currentScope = new LocalScope("",currentScope);
-    	n.setScope(currentScope);
         if (n.getInit() != null) {
             for (Iterator<Expression> i = n.getInit().iterator(); i.hasNext();) {
                 Expression e = i.next();
@@ -678,23 +580,18 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
             }
         }
         n.getBody().accept(this, arg);
-        currentScope = currentScope.getEnclosingScope();
     }
 
     public void visit(ThrowStmt n, Object arg) {
-    	n.setScope(currentScope);
         n.getExpr().accept(this, arg);
     }
 
     public void visit(SynchronizedStmt n, Object arg) {
-    	n.setScope(currentScope);
         n.getExpr().accept(this, arg);
         n.getBlock().accept(this, arg);
     }
 
     public void visit(TryStmt n, Object arg) {
-    	currentScope = new LocalScope("",currentScope);
-    	n.setScope(currentScope);
         n.getTryBlock().accept(this, arg);
         if (n.getCatchs() != null) {
             for (CatchClause c : n.getCatchs()) {
@@ -704,27 +601,21 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
         if (n.getFinallyBlock() != null) {
             n.getFinallyBlock().accept(this, arg);
         }
-        currentScope = currentScope.getEnclosingScope();
     }
 
     public void visit(CatchClause n, Object arg) {
-    	currentScope = new LocalScope("",currentScope);
-    	n.setScope(currentScope);
         n.getExcept().accept(this, arg);
         n.getCatchBlock().accept(this, arg);
-        currentScope = currentScope.getEnclosingScope();
 
     }
 
     public void visit(AnnotationDeclaration n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
         }
     }
 
     public void visit(AnnotationMemberDeclaration n, Object arg) {
-    	n.setScope(currentScope);
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
         }
@@ -736,18 +627,15 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(MarkerAnnotationExpr n, Object arg) {
-    	n.setScope(currentScope);
         n.getName().accept(this, arg);
     }
 
     public void visit(SingleMemberAnnotationExpr n, Object arg) {
-    	n.setScope(currentScope);
         n.getName().accept(this, arg);
         n.getMemberValue().accept(this, arg);
     }
 
     public void visit(NormalAnnotationExpr n, Object arg) {
-    	n.setScope(currentScope);
         n.getName().accept(this, arg);
         for (Iterator<MemberValuePair> i = n.getPairs().iterator(); i.hasNext();) {
             MemberValuePair m = i.next();
@@ -756,20 +644,16 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(MemberValuePair n, Object arg) {
-    	n.setScope(currentScope);
         n.getValue().accept(this, arg);
     }
 
     public void visit(LineComment n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(BlockComment n, Object arg) {
-    	n.setScope(currentScope);
     }
 
     public void visit(VariableDeclarationExpr n, Object arg) {
-    	n.setScope(currentScope);
 
         n.getType().accept(this, arg);
 

@@ -18,6 +18,7 @@ import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.type.ClassOrInterfaceType;
 import japa.parser.ast.visitor.CreateScopesVisitor;
 import japa.parser.ast.visitor.ExtendsVisitor;
+import japa.parser.ast.visitor.PopulateScopeVisitor;
 import japa.parser.ast.visitor.SillyBreakVisitor;
 import japa.parser.ast.visitor.DumpVisitor;
 
@@ -35,12 +36,15 @@ public class A2Compiler {
 		
 		PerformSourceToSource(ast);
 		
-		GlobalScope globalScope = new GlobalScope();
+		GlobalScope globalScope = new GlobalScope("Global", null);
 		
+		//create scopes needed for symantic analysis
 		CreateScopesVisitor scopeCreator = new CreateScopesVisitor(globalScope); 
 		ast.accept(scopeCreator, null);
 		
-		
+		//Populates scope with all the things
+		PopulateScopeVisitor populateScopesVisitor = new PopulateScopeVisitor();
+		ast.accept(populateScopesVisitor, null);
 		
 		
 		// perform visit N 

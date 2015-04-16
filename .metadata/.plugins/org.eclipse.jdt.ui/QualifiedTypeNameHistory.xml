@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="japa.parser.ast.visitor.CreateScopesVisitor"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="symtab.GlobalScope"/>
+<fullyQualifiedTypeName name="symtab.Scope"/>
+<fullyQualifiedTypeName name="symtab.LocalScope"/>
+</qualifiedTypeNameHistroy>

@@ -10,7 +10,10 @@ public class BaseScope implements Scope{
 	
 	private Map<String,Symbol> symbols = new HashMap<String,Symbol>();
 	
-	
+	public BaseScope(String name, Scope enclosing){
+		scopeName = name;
+		enclosingScope = enclosing;
+	}
 	
 	@Override
 	public String getScopeName() {
