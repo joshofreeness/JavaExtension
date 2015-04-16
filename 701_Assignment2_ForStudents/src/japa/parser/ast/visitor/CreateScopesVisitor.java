@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import symtab.GlobalScope;
+import symtab.LocalScope;
 import symtab.Scope;
 import japa.parser.ast.BlockComment;
 import japa.parser.ast.CompilationUnit;
@@ -115,14 +116,12 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
         if (n.getTypes() != null) {
         	List<TypeDeclaration> types =  n.getTypes();
         	for (int i=0; i<types.size(); i++){
+        		LocalScope newScope = new LocalScope();
+        		
         		types.get(i).accept(this, arg);
                 
         	}
         	
-            for (Iterator<TypeDeclaration> i = n.getTypes().iterator(); i.hasNext();) {
-                i.next().accept(this, arg);
-                
-            }
         }
     }
 
