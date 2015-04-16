@@ -29,7 +29,7 @@ public class A2Compiler {
 	 */
 	public static void compile(File file) throws ParseException, FileNotFoundException {
 
-		// parse the input, performs lexical and syntatic analysis
+		// parse the input, performs lexical and syntactic analysis
 		JavaParser parser = new JavaParser(new FileReader(file));
 		CompilationUnit ast = parser.CompilationUnit();
 		
@@ -38,7 +38,7 @@ public class A2Compiler {
 		
 		GlobalScope globalScope = new GlobalScope("Global", null);
 		
-		//create scopes needed for symantic analysis
+		//create scopes needed for semantic analysis
 		CreateScopesVisitor scopeCreator = new CreateScopesVisitor(globalScope); 
 		ast.accept(scopeCreator, null);
 		
@@ -47,7 +47,7 @@ public class A2Compiler {
 		ast.accept(populateScopesVisitor, null);
 		
 		
-		// perform visit N 
+		// perform visit to print out file
 		DumpVisitor printVisitor = new DumpVisitor();
 		ast.accept(printVisitor, null);
 		
