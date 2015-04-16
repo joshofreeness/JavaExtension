@@ -1,29 +1,42 @@
 package symtab;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BaseScope implements Scope{
 
+	private String scopeName;
+	private Scope enclosingScope;
+	
+	private Map<String,Symbol> symbols = new HashMap<String,Symbol>();
+	
+	
+	
 	@Override
 	public String getScopeName() {
-		// TODO Auto-generated method stub
-		return null;
+		return scopeName;
 	}
 
 	@Override
 	public Scope getEnclosingScope() {
-		// TODO Auto-generated method stub
-		return null;
+		return enclosingScope;
 	}
 
 	@Override
 	public void define(Symbol symbol) {
-		// TODO Auto-generated method stub
+		if (symbols.containsKey(symbol.getName())){
+			throw new JavaxSemanticsException("The Symbol " + symbol.getName() +" is already defined in the current scope" );
+		}
+		symbols.put(symbol.getName(), symbol);
 		
 	}
 
 	@Override
 	public Symbol resolve(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		if (!symbols.containsKey(name)){
+			throw new JavaxSemanticsException("The Symbol " + name +" is not defined in the current scope" );
+		}
+		return symbols.get(name);
 	}
 
 }

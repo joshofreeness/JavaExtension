@@ -1,5 +1,7 @@
 package japa.parser.ast.visitor;
 
+import symtab.GlobalScope;
+import symtab.Scope;
 import japa.parser.ast.BlockComment;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.ImportDeclaration;
@@ -83,6 +85,12 @@ import japa.parser.ast.type.VoidType;
 import japa.parser.ast.type.WildcardType;
 
 public class CreateScopesVisitor implements VoidVisitor<Object> {
+	
+	private Scope currentScope;
+
+	public CreateScopesVisitor(GlobalScope globalScope) {
+		currentScope = globalScope;
+	}
 
 	@Override
 	public void visit(Node n, Object arg) {

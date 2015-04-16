@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import symtab.GlobalScope;
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
@@ -34,8 +35,9 @@ public class A2Compiler {
 		
 		PerformSourceToSource(ast);
 		
+		GlobalScope globalScope = new GlobalScope();
 		
-		CreateScopesVisitor scopeCreator = new CreateScopesVisitor(); 
+		CreateScopesVisitor scopeCreator = new CreateScopesVisitor(globalScope); 
 		ast.accept(scopeCreator, null);
 		
 		
