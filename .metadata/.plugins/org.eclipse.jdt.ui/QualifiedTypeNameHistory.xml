@@ -6,4 +6,7 @@
 <fullyQualifiedTypeName name="symtab.GlobalScope"/>
 <fullyQualifiedTypeName name="symtab.Scope"/>
 <fullyQualifiedTypeName name="symtab.LocalScope"/>
+<fullyQualifiedTypeName name="symtab.ClassSymbol"/>
+<fullyQualifiedTypeName name="symtab.MethodSymbol"/>
+<fullyQualifiedTypeName name="japa.parser.ast.visitor.PopulateScopeVisitor"/>
 </qualifiedTypeNameHistroy>
