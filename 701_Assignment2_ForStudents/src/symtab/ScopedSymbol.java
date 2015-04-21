@@ -7,8 +7,8 @@ public class ScopedSymbol extends Symbol implements Scope{
 	private HashMap<String, Symbol> symbols = new HashMap<String, Symbol>();
 	protected Scope enclosingScope = null;
 	
-	public ScopedSymbol(String name, Scope enclosingScope) {
-		super(name);
+	public ScopedSymbol(String name, Type type, Scope enclosingScope) {
+		super(name, type);
 		this.enclosingScope = enclosingScope;
 	}
 	

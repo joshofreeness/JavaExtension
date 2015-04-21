@@ -5,6 +5,9 @@ import java.util.List;
 
 import symtab.GlobalScope;
 import symtab.Scope;
+import symtab.Symbol;
+import symtab.Type;
+import symtab.VariableSymbol;
 import japa.parser.ast.BlockComment;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.ImportDeclaration;
@@ -14,6 +17,7 @@ import japa.parser.ast.PackageDeclaration;
 import japa.parser.ast.TypeParameter;
 import japa.parser.ast.body.AnnotationDeclaration;
 import japa.parser.ast.body.AnnotationMemberDeclaration;
+import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.body.ConstructorDeclaration;
 import japa.parser.ast.body.EmptyMemberDeclaration;
@@ -94,6 +98,8 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
 	
 	
 
+	
+	
     public void visit(Node n, Object arg) {
         throw new IllegalStateException(n.getClass().getName());
     }
@@ -133,6 +139,9 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(ClassOrInterfaceDeclaration n, Object arg) {
+    	
+    	
+    	
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
         }
@@ -151,6 +160,12 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
                 c.accept(this, arg);
             }
         }
+        
+        if (n.getMembers() != null) {
+            for( BodyDeclaration b: n.getMembers()){
+         	   b.accept(this, null);
+            }
+         }
     }
 
     public void visit(EmptyTypeDeclaration n, Object arg) {
@@ -194,6 +209,7 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(FieldDeclaration n, Object arg) {
+    	
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
         }
@@ -201,12 +217,19 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
 
         for (Iterator<VariableDeclarator> i = n.getVariables().iterator(); i.hasNext();) {
             VariableDeclarator var = i.next();
-            var.accept(this, arg);
+            var.accept(this, n.getType());
         }
 
     }
 
     public void visit(VariableDeclarator n, Object arg) {
+    	symtab.Type type = null;
+    	if (arg != null){
+    		type = (symtab.Type) n.getScopeIn().resolve(arg.toString());
+    	}
+    	
+    	n.getScopeIn().define(new VariableSymbol(n.getId().toString(), type ));
+    	
         n.getId().accept(this, arg);
         if (n.getInit() != null) {
             n.getInit().accept(this, arg);
@@ -381,6 +404,7 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(MethodDeclaration n, Object arg) {
+    	
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
         }
@@ -439,6 +463,7 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(BlockStmt n, Object arg) {
+    	
         if (n.getStmts() != null) {
             for (Statement s : n.getStmts()) {
                 s.accept(this, arg);
@@ -656,10 +681,10 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
     public void visit(VariableDeclarationExpr n, Object arg) {
 
         n.getType().accept(this, arg);
-
+        
         for (Iterator<VariableDeclarator> i = n.getVars().iterator(); i.hasNext();) {
             VariableDeclarator v = i.next();
-            v.accept(this, arg);
+            v.accept(this, n.getType());
         }
     }
 }

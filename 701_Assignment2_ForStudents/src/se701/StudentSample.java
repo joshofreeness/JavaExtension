@@ -2,6 +2,8 @@ package se701;
 
 public class StudentSample extends ExtendMe2 {
 
+    public ExtendMe1 hi;
+
     public static void main(String[] args) {
         System.out.println(parents + " " + otherParents);
     }

@@ -21,6 +21,7 @@ import japa.parser.ast.visitor.ExtendsVisitor;
 import japa.parser.ast.visitor.PopulateScopeVisitor;
 import japa.parser.ast.visitor.SillyBreakVisitor;
 import japa.parser.ast.visitor.DumpVisitor;
+import japa.parser.ast.visitor.TypeVisitor;
 
 public class A2Compiler {
 	
@@ -41,6 +42,9 @@ public class A2Compiler {
 		//create scopes needed for semantic analysis
 		CreateScopesVisitor scopeCreator = new CreateScopesVisitor(globalScope); 
 		ast.accept(scopeCreator, null);
+		
+		TypeVisitor typeVisitor = new TypeVisitor();
+		ast.accept(typeVisitor, globalScope);
 		
 		//Populates scope with all the things
 		PopulateScopeVisitor populateScopesVisitor = new PopulateScopeVisitor();

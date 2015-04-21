@@ -37,7 +37,12 @@ public class BaseScope implements Scope{
 	@Override
 	public Symbol resolve(String name) {
 		if (!symbols.containsKey(name)){
-			throw new JavaxSemanticsException("The Symbol " + name +" is not defined in the current scope" );
+			if (enclosingScope == null){
+				throw new JavaxSemanticsException("The Symbol " + name +" is not defined in the current scope" );
+			}else {
+				return enclosingScope.resolve(name);
+			}
+			
 		}
 		return symbols.get(name);
 	}
