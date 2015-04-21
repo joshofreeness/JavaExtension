@@ -47,6 +47,16 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \maketitle
 \chapter{Java Extension}
 \section{Multiple Inheritance}
+
+Multiple Inheritance is implemented in many languages including well known languages such as C++, Python, Perl and Scala. Languages that do not support multiple inheritance are Java, C\# and Ruby. These languages provide similar but not identical functionality though interfaces and similar constructs.% \cite {against}
+
+
+Ever since multiple inheritance was introduced in 1991 in C++ 2.0 \cite{date} there have been debates concerning the pros and cons of the approach. A common argument against multiple inheritance is that there are very little or no examples of cases where multiple inheritance is required. In an article Waldo states that this may be due to the nature of multiple inheritance as it lends itself more to large systems than small and understandable examples. \cite{examples} 
+
+
+A common concern when interacting with multiple inheritance is "The diamond problem". This describes the issue of a child class not knowing which method or field to access if two parents at the same level in the inheritance hierarchy have fields or methods named the same. This is often due to the two parent classes themselves extending a single class and overriding its methods. In this extension I don't allow such a case by checking if parent classes containing methods or fields with the same name.
+
+\section{Feature}
 This feature works similar to other languages. A single class is able to extend multiple classes. 
 \begin{lstlisting}
 public class A extendsAll B, C {
@@ -57,12 +67,7 @@ public class A extendsAll B, C, D, E, F {
 	.....
 	}	
 \end{lstlisting}
-As you can see the keyword extendsAll is used to differentiate between the new feature and standard Java code. The feature can allow a user to make a class extend any number of classes. Due to the nature of Java only one class in the list of parent classes may extend another class. \cite {bar}
-\break\break
-
-Multiple Inheritance is implemented in many languages including well known languages such as C++, Python, Perl and Scala. Languages that do not support multiple inheritance are Java, C\# and Ruby. These languages provide similar but not identical functionality though interfaces and protocols. {\color{red} QUOTE ME}
-
-
+As you can see the keyword extendsAll is used to differentiate between the new feature and standard Java code. The feature can allow a user to make a class extend any number of classes. Due to the nature of Java only one class in the list of parent classes may extend another class. %\cite {for}
 
 \section{Semantics}
 
@@ -73,6 +78,6 @@ Multiple Inheritance is implemented in many languages including well known langu
 The Enterprise computer system is controlled by three primary main processor cores, cross-linked with a redundant melacortz ramistat, fourteen kiloquad interface modules. Some days you get the bear, and some days the bear gets you. Maybe if we felt any human loss as keenly as we feel one of those close to us, human history would be far less bloody. Smooth as an android's bottom, eh, Data? In all trust, there is the possibility for betrayal. Fate. It protects fools, little children, and ships named "Enterprise." Captain, why are we out here chasing comets? I'd like to think that I haven't changed those things, sir. I recommend you don't fire until you're within 40,000 kilometers. About four years. I got tired of hearing how young I looked. and attack the Romulans. Besides, you look good in a dress. Now, how the hell do we defeat an enemy that knows us better than we know ourselves? Well, I'll say this for him - he's sure of himself. Earl Grey tea, watercress sandwiches... and Bularian canapés? Are you up for promotion? The unexpected is our normal routine. But the probability of making a six is no greater than that of rolling a seven. Fate protects fools, little children and ships named Enterprise. Then maybe you should consider this: if anything happens to them, Starfleet is going to want a full investigation. Your head is not an artifact! I will obey your orders. I will serve this ship as First Officer. And in an attack against the Enterprise, I will die with this crew. But I will not break my oath of loyalty to Starfleet. A surprise party? Mr. Worf, I hate surprise parties. I would *never* do that to you. What's a knock-out like you doing in a computer-generated gin joint like this? Computer, belay that order. My oath is between Captain Kargan and myself. Your only concern is with how you obey my orders. Or do you prefer the rank of prisoner to that of lieutenant?
 
 \bibliography{report}
-	\bibliographystyle{plain}
+\bibliographystyle{plain}
 
 \end{document}  
