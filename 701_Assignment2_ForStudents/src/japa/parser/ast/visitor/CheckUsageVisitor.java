@@ -3,6 +3,7 @@ package japa.parser.ast.visitor;
 import java.util.Iterator;
 import java.util.List;
 
+import symtab.BuiltInTypeSymbol;
 import symtab.GlobalScope;
 import symtab.Scope;
 import symtab.Symbol;
@@ -94,11 +95,9 @@ import japa.parser.ast.type.ReferenceType;
 import japa.parser.ast.type.VoidType;
 import japa.parser.ast.type.WildcardType;
 
-public class PopulateScopeVisitor implements VoidVisitor<Object> {
-	
+public class CheckUsageVisitor implements VoidVisitor<Object> {
 	
 
-	
 	
     public void visit(Node n, Object arg) {
         throw new IllegalStateException(n.getClass().getName());
@@ -139,6 +138,7 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(ClassOrInterfaceDeclaration n, Object arg) {
+    	
     	
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
@@ -221,12 +221,9 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(VariableDeclarator n, Object arg) {
-    	symtab.Type type = null;
-    	if (arg != null){
-    		type = (symtab.Type) n.getScopeIn().resolve(arg.toString());
-    	}
     	
-    	n.getScopeIn().define(new VariableSymbol(n.getId().toString(), type ));
+    	
+    	
     	
         n.getId().accept(this, arg);
         if (n.getInit() != null) {
@@ -402,9 +399,6 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(MethodDeclaration n, Object arg) {
-    	//System.out.println(n.getName());
-    	//System.out.println(n.getScopeIn().getEnclosingScope());
-    	n.getScopeIn().getEnclosingScope().define((Symbol)n.getScopeIn());
     	
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);
@@ -682,10 +676,10 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
     public void visit(VariableDeclarationExpr n, Object arg) {
 
         n.getType().accept(this, arg);
-        
+
         for (Iterator<VariableDeclarator> i = n.getVars().iterator(); i.hasNext();) {
             VariableDeclarator v = i.next();
-            v.accept(this, n.getType());
+            v.accept(this, arg);
         }
     }
 }
