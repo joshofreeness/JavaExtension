@@ -286,8 +286,17 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     		System.out.println(topExpression);
     		if (topExpression instanceof NameExpr ){
     			//handle nameexpr statement
-    		} else {
+    		} else if (topExpression instanceof FieldAccessExpr || topExpression instanceof MethodCallExpr) {
     			//Traverse to the bottom of the expression tree
+    			Expression currentExpression = topExpression;
+    			
+    			while(!(currentExpression instanceof NameExpr) ){
+    				System.out.println("Looping");
+    			
+    				currentExpression = getChildExpression(currentExpression);
+    			}
+    			
+    		} else{
     			
     		}
     	}
@@ -298,12 +307,14 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
 		
 		if (e instanceof FieldAccessExpr){
 			FieldAccessExpr expr = (FieldAccessExpr) e;
+			childExpression = expr.getScope();
 		} else {
 			MethodCallExpr expr = (MethodCallExpr) e;
+			childExpression = expr.getScope();
 		}
 		
 		
-    	return e;
+    	return childExpression;
     	
     }
     

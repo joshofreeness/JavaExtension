@@ -5,13 +5,13 @@ public class Test5 {
 		
 		//test = d(false)
 		
-		String testAgain = c(test);
-		test = b(testAgain);
+		String testAgain = new c(test);
+		test = new b(testAgain);
 		
 		//test = b(5);
 		//test = c(null);
 		
-		test = d(1);
+		test = new d(1);
 	}
 	
 	public int b(String num) {

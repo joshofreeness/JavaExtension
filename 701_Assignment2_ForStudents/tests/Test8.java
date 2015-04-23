@@ -2,8 +2,7 @@ public class Test2 {
 
     public void yo(boolean x) {
         String a;
-        a = sup();
-        System.out.println(a);
+        a = new sup();
     }
 
     public String sup() {
