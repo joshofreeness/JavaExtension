@@ -1,15 +1,25 @@
 public class Test1 {
 	int a;
+	String k;
 	boolean b;
+	double d;
+	float x;
 	simple temp = new temp();
 	public void foo(boolean x) {
-		a = false;  // ERROR: incompatible types
-		b = temp.a;
+		//a = false;  // ERROR: incompatible types
+		b = temp.f; // ERROR: incompatible types
+		a = 1;
+		k = "HELLO";
+		d = 9;
+		x = 9.6;
+		x=4;
+		x=2.5f;
+		
 		//b = 4;
 		//break;
 	}
 }
 
 class simple{
-	boolean a;
+	int f;
 }

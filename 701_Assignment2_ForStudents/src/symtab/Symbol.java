@@ -12,5 +12,9 @@ protected Type type;
 	public String getName() {
 		return name;
 	}
+	
+	public Type getType() {
+		return type;
+	}
 
 }

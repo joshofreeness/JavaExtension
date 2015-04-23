@@ -37,7 +37,7 @@ public class A2Compiler {
 	 * This is the only method you should need to change inside this class. But do not modify the signature of the method! 
 	 */
 	public static void compile(File file) throws ParseException, FileNotFoundException {
-
+		
 		// parse the input, performs lexical and syntactic analysis
 		JavaParser parser = new JavaParser(new FileReader(file));
 		CompilationUnit ast = parser.CompilationUnit();
