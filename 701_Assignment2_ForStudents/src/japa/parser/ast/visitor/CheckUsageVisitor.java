@@ -278,53 +278,77 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     	Type targetType = targetSymbol.getType();
     	
     	
-    	System.out.println(topExpression);
-    	if (topExpression instanceof LiteralExpr){
-    		
-    		if (topExpression instanceof IntegerLiteralExpr || topExpression instanceof IntegerLiteralMinValueExpr){
-    			if (targetType.getName().equals("int") || targetType.getName().equals("double") || targetType.getName().equals("float") || targetType.getName().equals("long")){
-	    			return;
-    			}
-	    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
-    		}
-    		
-    		if (topExpression instanceof LongLiteralExpr ||  topExpression instanceof LongLiteralMinValueExpr){
-    			if (targetType.getName().equals("long")){
-	    			return;
-    			}
-	    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
-    		}
-    		
-    		if (topExpression instanceof BooleanLiteralExpr){
-    			if (targetType.getName().equals("boolean")){
-	    			return;
-    			}
-	    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
-    		}
-    		
-    		if (topExpression instanceof DoubleLiteralExpr){
-    			if (targetType.getName().equals("double") || targetType.getName().equals("float")){
-	    			return;
-    			}
-	    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
-    		}
-    		
-    		if (topExpression instanceof CharLiteralExpr){
-    			if (targetType.getName().equals("char")){
-	    			return;
-    			}
-	    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
-    		}
-    		
-    		if (topExpression instanceof StringLiteralExpr){
-    			if (targetType.getName().equals("String")){
-	    			return;
-    			}
-	    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
-    		}
-    		
     	
+    	//Literal expressions
+    	if (topExpression instanceof LiteralExpr){
+    		checkLiteralExpressions(topExpression, targetType, target);
+    	} else{
+    		System.out.println(topExpression);
+    		if (topExpression instanceof NameExpr ){
+    			//handle nameexpr statement
+    		} else {
+    			//Traverse to the bottom of the expression tree
+    			
+    		}
     	}
+    }
+    
+    public Expression getChildExpression(Expression e){
+		Expression childExpression;
+		
+		if (e instanceof FieldAccessExpr){
+			
+		} else {
+			
+		}
+		
+		
+    	return e;
+    	
+    }
+    
+    public void checkLiteralExpressions(Expression topExpression, Type targetType, Expression target){
+    	if (topExpression instanceof IntegerLiteralExpr || topExpression instanceof IntegerLiteralMinValueExpr){
+			if (targetType.getName().equals("int") || targetType.getName().equals("double") || targetType.getName().equals("float") || targetType.getName().equals("long")){
+    			return;
+			}
+    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
+		}
+		
+		if (topExpression instanceof LongLiteralExpr ||  topExpression instanceof LongLiteralMinValueExpr){
+			if (targetType.getName().equals("long")){
+    			return;
+			}
+    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
+		}
+		
+		if (topExpression instanceof BooleanLiteralExpr){
+			if (targetType.getName().equals("boolean")){
+    			return;
+			}
+    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
+		}
+		
+		if (topExpression instanceof DoubleLiteralExpr){
+			if (targetType.getName().equals("double") || targetType.getName().equals("float")){
+    			return;
+			}
+    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
+		}
+		
+		if (topExpression instanceof CharLiteralExpr){
+			if (targetType.getName().equals("char")){
+    			return;
+			}
+    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
+		}
+		
+		if (topExpression instanceof StringLiteralExpr){
+			if (targetType.getName().equals("String")){
+    			return;
+			}
+    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
+		}
     }
 
     public void visit(BinaryExpr n, Object arg) {
