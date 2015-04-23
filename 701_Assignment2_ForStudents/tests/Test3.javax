@@ -1,6 +1,6 @@
 public class Test3 extendsAll ExtendMe1, ExtendMe2 {
 	public void foo(boolean x) {
-		b = 123;    // ERROR: out of scope
+		//b = 123;    // ERROR: out of scope
 	}
 	public void bar() {
 		int b = 456;

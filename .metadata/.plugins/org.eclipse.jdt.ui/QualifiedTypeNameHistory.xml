@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="japa.parser.ast.visitor.CreateScopesVisitor"/>
-<fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="symtab.GlobalScope"/>
 <fullyQualifiedTypeName name="symtab.Scope"/>
@@ -9,4 +8,12 @@
 <fullyQualifiedTypeName name="symtab.ClassSymbol"/>
 <fullyQualifiedTypeName name="symtab.MethodSymbol"/>
 <fullyQualifiedTypeName name="japa.parser.ast.visitor.PopulateScopeVisitor"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="symtab.VariableSymbol"/>
+<fullyQualifiedTypeName name="symtab.Type"/>
+<fullyQualifiedTypeName name="japa.parser.ast.visitor.TypeVisitor"/>
+<fullyQualifiedTypeName name="symtab.BuiltInTypeSymbol"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="symtab.Symbol"/>
+<fullyQualifiedTypeName name="java.util.Iterator"/>
 </qualifiedTypeNameHistroy>

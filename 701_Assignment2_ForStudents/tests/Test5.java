@@ -22,17 +22,17 @@ class ExtendMe3 extends ExtendMe2 {
 
 class ExtendMe4 extends ExtendMe3 {
 
-    protected static int otherOtherParents = 5;
+    protected static int otherOtherPkarents = 5;
 }
 
 class ExtendMe5 extends ExtendMe4 {
 
-    protected static int otherOtherParents = 5;
+    protected static int otherOtherPasdrents = 5;
 }
 
 class ExtendMe6 extends ExtendMe5 {
 
-    protected static int otherOtherParents = 5;
+    protected static int otherOtherParkents = 5;
 }
 
 class ExtendMeAlso {

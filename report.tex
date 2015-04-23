@@ -56,12 +56,15 @@ Ever since multiple inheritance was introduced in 1991 in C++ 2.0 \cite{date} th
 
 A common concern when interacting with multiple inheritance is "The diamond problem". This describes the issue of a child class not knowing which method or field to access if two parents at the same level in the inheritance hierarchy have fields or methods named the same. This is often due to the two parent classes themselves extending a single class and overriding its methods. In this extension I don't allow such a case by checking if parent classes containing methods or fields with the same name.
 
+
+A benefit to multiple inheritance is code reuse. In an interface approach if multiple classes were to implement a single interface then they need code duplication to satisfy the interface. 
+
 {\color{red}Talk about pros e.g. code-reuse}
 
 \section{Feature}
 This feature works similar to other languages. A single class is able to extend multiple classes. 
 \begin{lstlisting}
-public class A extendsAll B, C {
+public class A extendsAll B, C {	
 	.....
 	}
 	
@@ -72,7 +75,8 @@ public class A extendsAll B, C, D, E, F {
 As you can see the keyword extendsAll is used to differentiate between the new feature and standard Java code. The feature can allow a user to make a class extend any number of classes. Due to the nature of Java only one class in the list of parent classes may extend another class. %\cite {for}
 
 \section{Semantics}
-To support this feature in Java some semantic analysis had to be introduced. {\color{red}FINISH HIM}
+To support this feature in Java some semantic analysis had to be introduced. Most prominently relating to the diamond issue.
+ {\color{red}FINISH HIM}
 
 
 

@@ -1,6 +1,7 @@
 package symtab;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class ScopedSymbol extends Symbol implements Scope{
 
@@ -10,6 +11,10 @@ public class ScopedSymbol extends Symbol implements Scope{
 	public ScopedSymbol(String name, Type type, Scope enclosingScope) {
 		super(name, type);
 		this.enclosingScope = enclosingScope;
+	}
+	
+	public Map<String,Symbol> getSymbolTable(){
+		return symbols;
 	}
 	
 	@Override

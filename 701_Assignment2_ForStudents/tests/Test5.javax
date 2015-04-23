@@ -18,15 +18,15 @@ class ExtendMe3 {
 }
 
 class ExtendMe4 {
-	protected static int otherOtherParents = 5;//fail
+	protected static int otherOtherPkarents = 5;//fail
 }
 
 class ExtendMe5 {
-	protected static int otherOtherParents = 5;//fail
+	protected static int otherOtherPasdrents = 5;//fail
 }
 
 class ExtendMe6 {
-	protected static int otherOtherParents = 5;//fail
+	protected static int otherOtherParkents = 5;//fail
 }
 
 class ExtendMeAlso{

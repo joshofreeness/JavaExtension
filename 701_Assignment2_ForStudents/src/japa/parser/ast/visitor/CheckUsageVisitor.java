@@ -50,6 +50,7 @@ import japa.parser.ast.expr.FieldAccessExpr;
 import japa.parser.ast.expr.InstanceOfExpr;
 import japa.parser.ast.expr.IntegerLiteralExpr;
 import japa.parser.ast.expr.IntegerLiteralMinValueExpr;
+import japa.parser.ast.expr.LiteralExpr;
 import japa.parser.ast.expr.LongLiteralExpr;
 import japa.parser.ast.expr.LongLiteralMinValueExpr;
 import japa.parser.ast.expr.MarkerAnnotationExpr;
@@ -222,9 +223,6 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
 
     public void visit(VariableDeclarator n, Object arg) {
     	
-    	
-    	
-    	
         n.getId().accept(this, arg);
         if (n.getInit() != null) {
             n.getInit().accept(this, arg);
@@ -264,8 +262,19 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(AssignExpr n, Object arg) {
+    	Scope current = n.getScopeIn();
+    	current.resolve(n.getTarget().toString());
         n.getTarget().accept(this, arg);
+        checkRHS(n.getValue());
         n.getValue().accept(this, arg);
+    }
+    
+    
+    public void checkRHS(Expression topExpression){
+    	System.out.println(topExpression);
+    	if (topExpression instanceof LiteralExpr){
+    		
+    	}
     }
 
     public void visit(BinaryExpr n, Object arg) {

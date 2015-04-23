@@ -8,14 +8,19 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import symtab.BaseScope;
 import symtab.GlobalScope;
+import symtab.Symbol;
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.type.ClassOrInterfaceType;
+import japa.parser.ast.visitor.CheckUsageVisitor;
 import japa.parser.ast.visitor.CreateScopesVisitor;
 import japa.parser.ast.visitor.ExtendsVisitor;
 import japa.parser.ast.visitor.PopulateScopeVisitor;
@@ -24,6 +29,9 @@ import japa.parser.ast.visitor.DumpVisitor;
 import japa.parser.ast.visitor.TypeVisitor;
 
 public class A2Compiler {
+	
+	
+	static List<ClassOrInterfaceDeclaration> classesInHierachyExtendAll;
 	
 	/*
 	 * This is the only method you should need to change inside this class. But do not modify the signature of the method! 
@@ -50,6 +58,12 @@ public class A2Compiler {
 		PopulateScopeVisitor populateScopesVisitor = new PopulateScopeVisitor();
 		ast.accept(populateScopesVisitor, null);
 		
+		if (classesInHierachyExtendAll != null){
+			CheckForInheritanceProblems(classesInHierachyExtendAll);
+		}
+		
+		CheckUsageVisitor usgaeVisitor = new CheckUsageVisitor();
+		ast.accept(usgaeVisitor, null);
 		
 		// perform visit to print out file
 		DumpVisitor printVisitor = new DumpVisitor();
@@ -60,6 +74,24 @@ public class A2Compiler {
 		// save the result into a *.java file, same level as the original file
 		File javaFile = getAsJavaFile(file);
 		writeToFile(javaFile, result);
+	}
+	
+	
+	private static void CheckForInheritanceProblems(List<ClassOrInterfaceDeclaration> classesInHierachy){
+		Map<String, Symbol> allSymbols = new HashMap<String, Symbol>();
+		for (ClassOrInterfaceDeclaration c: classesInHierachy){
+			Map<String, Symbol> currentSymbols = c.getScopeIn().getSymbolTable();
+			Iterator it = currentSymbols.entrySet().iterator();
+		    while (it.hasNext()) {
+		        Map.Entry pair = (Map.Entry)it.next();
+		        //System.out.println(pair.getKey() + " = " + pair.getValue());
+		        if (allSymbols.containsKey(pair.getKey())){
+		        	throw new A2SemanticsException("The symbol " + (String)pair.getKey() + " is already defined in an inherited scope");
+		        }
+		        allSymbols.put((String)pair.getKey(), (Symbol)pair.getValue());
+		        it.remove(); 
+		    }
+		}
 	}
 	
 	private static void PerformSourceToSource(CompilationUnit ast){
@@ -144,11 +176,7 @@ public class A2Compiler {
 		extendsAllList.add(typeMap.get(classesInHierachy.get(classesInHierachy.size()-1).getName()));
 		extendAllClass.setExtends(extendsAllList);
 		
-		
-		
-		
-		
-		
+		classesInHierachyExtendAll = classesInHierachy;
 	}
 	
 	/*

@@ -1,9 +1,15 @@
 public class Test1 {
 	int a;
-	
+	boolean b;
+	simple temp = new temp();
 	public void foo(boolean x) {
 		a = false;  // ERROR: incompatible types
-		
+		b = temp.a;
+		//b = 4;
 		//break;
 	}
+}
+
+class simple{
+	boolean a;
 }

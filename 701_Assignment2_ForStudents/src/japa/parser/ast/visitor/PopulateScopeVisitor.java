@@ -405,6 +405,7 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
     	//System.out.println(n.getName());
     	//System.out.println(n.getScopeIn().getEnclosingScope());
     	n.getScopeIn().getEnclosingScope().define((Symbol)n.getScopeIn());
+    	//System.out.println();
     	
         if (n.getJavaDoc() != null) {
             n.getJavaDoc().accept(this, arg);

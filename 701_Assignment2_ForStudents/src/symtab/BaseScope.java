@@ -15,6 +15,10 @@ public class BaseScope implements Scope{
 		enclosingScope = enclosing;
 	}
 	
+	public Map<String,Symbol> getSymbolTable(){
+		return symbols;
+	}
+	
 	@Override
 	public String getScopeName() {
 		return scopeName;
