@@ -297,9 +297,9 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
 		Expression childExpression;
 		
 		if (e instanceof FieldAccessExpr){
-			
+			FieldAccessExpr expr = (FieldAccessExpr) e;
 		} else {
-			
+			MethodCallExpr expr = (MethodCallExpr) e;
 		}
 		
 		
