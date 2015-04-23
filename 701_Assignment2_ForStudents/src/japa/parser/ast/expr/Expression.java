@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 Júlio Vilmar Gesser.
+ * Copyright (C) 2007 Jï¿½lio Vilmar Gesser.
  * 
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
@@ -28,8 +28,18 @@ import japa.parser.ast.Node;
  */
 public abstract class Expression extends Node {
 
+	Expression parentExpression;
+	
     public Expression(int line, int column) {
         super(line, column);
+    }
+    
+    public Expression getParentExpression(){
+    	return parentExpression;
+    }
+    
+    public void setParentExpression(Expression e){
+    	parentExpression = e;
     }
 
 }

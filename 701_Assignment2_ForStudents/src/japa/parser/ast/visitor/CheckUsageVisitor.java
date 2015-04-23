@@ -292,9 +292,11 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     			
     			while(!(currentExpression instanceof NameExpr) ){
     				System.out.println("Looping");
-    			
-    				currentExpression = getChildExpression(currentExpression);
+    				Expression childExpression = getChildExpression(currentExpression);
+    				childExpression.setParentExpression(currentExpression);
+    				currentExpression = childExpression;
     			}
+    			//TODO: traverse back up the tree
     			
     		} else{
     			
