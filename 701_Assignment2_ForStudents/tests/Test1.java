@@ -10,6 +10,8 @@ public class Test1 {
 
     float x;
 
+    other p;
+
     simple temp = new temp();
 
     public void foo(boolean x) {
@@ -21,9 +23,15 @@ public class Test1 {
         x = 4;
         x = 2.5f;
     }
+
+    class other {
+    }
 }
 
 class simple {
 
     int f;
+
+    public void delta() {
+    }
 }

@@ -175,6 +175,7 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
            }
         }
         
+        
         currentScope = currentScope.getEnclosingScope(); //return to parent scope
     }
 

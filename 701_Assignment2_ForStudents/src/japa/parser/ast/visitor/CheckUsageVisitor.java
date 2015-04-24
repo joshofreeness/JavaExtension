@@ -266,26 +266,27 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     	Scope current = n.getScopeIn();
     	current.resolve(n.getTarget().toString());
         n.getTarget().accept(this, arg);
-        checkRHS(n.getValue(), n);
+        findRecusiveType(n.getValue(), n);
         n.getValue().accept(this, arg);
     }
     
     
-    public void checkRHS(Expression topExpression, AssignExpr aboveExpression){
+    public String findRecusiveType(Expression topExpression, AssignExpr aboveExpression){
     	Scope aboveScope = aboveExpression.getScopeIn();
     	Expression target = aboveExpression.getTarget();
     	Symbol targetSymbol = aboveScope.resolve(target.toString());
     	Type targetType = targetSymbol.getType();
     	
-    	
+    	String resolvedType = "";
     	
     	//Literal expressions
     	if (topExpression instanceof LiteralExpr){
-    		checkLiteralExpressions(topExpression, targetType, target);
+    		resolvedType = checkLiteralExpressions(topExpression, targetType, target);
     	} else{
     		System.out.println(topExpression);
     		if (topExpression instanceof NameExpr ){
     			//handle nameexpr statement
+    			return "HAHAHAH";
     		} else if (topExpression instanceof FieldAccessExpr || topExpression instanceof MethodCallExpr) {
     			//Traverse to the bottom of the expression tree
     			Expression currentExpression = topExpression;
@@ -296,13 +297,65 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     				childExpression.setParentExpression(currentExpression);
     				currentExpression = childExpression;
     			}
-    			//TODO: traverse back up the tree
+    			Scope currentScope = aboveExpression.getScopeIn();
+    			Type currentType = null;
+    			//  traverse back up the tree
+    			while (currentExpression != null){
+    				//TODO: traverse back up the tree
+    				
+    				String name = getStringName(currentExpression);
+    				
+    				Symbol symb = currentScope.resolve(name);
+    				currentType = symb.getType();
+    				
+    				if (currentType instanceof Scope){
+    					Scope newScope = (Scope)currentType;
+    					currentScope = newScope;
+    					currentExpression = currentExpression.getParentExpression();
+    				} else {
+    					currentExpression = null;
+    				}
+    				//Symbol symb = currentScope.resolve(""); //TODO: Resolve actual string
+    				//TODO: resolve the type which is also a scope and set it to currentScope
+    			}
+    			
+    			
+    			resolvedType = currentType.getName();
     			
     		} else{
-    			
+    			resolvedType = "LOLOL";
     		}
     	}
+    	System.out.println(resolvedType);
+    	return resolvedType;
     }
+    
+    public String getStringName(Expression e){
+    	String name;
+    	if (e instanceof FieldAccessExpr){
+    		name = ((FieldAccessExpr) e).getField();
+    	}
+    	else if (e instanceof MethodCallExpr){
+    		name = ((MethodCallExpr) e).getName();
+    	}
+    	else{
+    		name = ((NameExpr) e).getName();
+    	}
+    	return name;
+    	
+    }
+    
+    /*Store for later
+     * try{
+    				System.out.println(((FieldAccessExpr)currentExpression).getField());
+    				} catch(Exception e){}
+    				try{
+    				System.out.println(((MethodCallExpr)currentExpression).getName());
+    				} catch(Exception e){}
+    				try{
+    				System.out.println(((NameExpr)currentExpression).getName());
+    				} catch(Exception e){}
+     * */
     
     public Expression getChildExpression(Expression e){
 		Expression childExpression;
@@ -320,48 +373,31 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     	
     }
     
-    public void checkLiteralExpressions(Expression topExpression, Type targetType, Expression target){
+    public String checkLiteralExpressions(Expression topExpression, Type targetType, Expression target){
     	if (topExpression instanceof IntegerLiteralExpr || topExpression instanceof IntegerLiteralMinValueExpr){
-			if (targetType.getName().equals("int") || targetType.getName().equals("double") || targetType.getName().equals("float") || targetType.getName().equals("long")){
-    			return;
-			}
-    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
+				return "int";	
 		}
 		
 		if (topExpression instanceof LongLiteralExpr ||  topExpression instanceof LongLiteralMinValueExpr){
-			if (targetType.getName().equals("long")){
-    			return;
-			}
-    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
-		}
+			return "long";
+    	}
 		
 		if (topExpression instanceof BooleanLiteralExpr){
-			if (targetType.getName().equals("boolean")){
-    			return;
-			}
-    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
+				return "boolean";
 		}
 		
 		if (topExpression instanceof DoubleLiteralExpr){
-			if (targetType.getName().equals("double") || targetType.getName().equals("float")){
-    			return;
-			}
-    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
+				return "double";	
 		}
 		
 		if (topExpression instanceof CharLiteralExpr){
-			if (targetType.getName().equals("char")){
-    			return;
-			}
-    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
+				return "char";
 		}
 		
 		if (topExpression instanceof StringLiteralExpr){
-			if (targetType.getName().equals("String")){
-    			return;
-			}
-    		throw new A2SemanticsException("Wrong type, " +target+ " needs type "+ targetType.getName() + ", trying to assign " + topExpression  + " Line: " +target.getBeginLine());	
+				return "String";
 		}
+		return "";
     }
 
     public void visit(BinaryExpr n, Object arg) {
