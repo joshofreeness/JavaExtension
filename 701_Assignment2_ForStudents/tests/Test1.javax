@@ -22,6 +22,7 @@ public class Test1 {
 		//b = 4;
 		//break;
 		System.out.println();
+		break;
 	}
 	
 	class other{

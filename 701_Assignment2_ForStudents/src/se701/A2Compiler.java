@@ -65,9 +65,7 @@ public class A2Compiler {
 		CheckUsageVisitor usgaeVisitor = new CheckUsageVisitor();
 		ast.accept(usgaeVisitor, null);
 		
-		// perform visit to print out file
-		DumpVisitor printVisitor = new DumpVisitor();
-		ast.accept(printVisitor, null);
+		
 		
 		String result = printVisitor.getSource();
 		

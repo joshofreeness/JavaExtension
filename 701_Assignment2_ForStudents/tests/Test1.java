@@ -25,6 +25,7 @@ public class Test1 {
         x = 4;
         x = 2.5f;
         System.out.println();
+        break;
     }
 
     class other {
