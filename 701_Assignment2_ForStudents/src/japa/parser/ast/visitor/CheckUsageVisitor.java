@@ -264,10 +264,62 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
 
     public void visit(AssignExpr n, Object arg) {
     	Scope current = n.getScopeIn();
-    	current.resolve(n.getTarget().toString());
+    	//current.resolve(n.getTarget().toString());
+    	String leftType = findRecusiveType(n.getTarget(), n);
+        String rightType = findRecusiveType(n.getValue(), n);
+        appropriateTypes(leftType, rightType, n);
         n.getTarget().accept(this, arg);
-        findRecusiveType(n.getValue(), n);
         n.getValue().accept(this, arg);
+    }
+    
+    public void appropriateTypes(String left, String right, AssignExpr n){
+    	
+    	if (left.equals("float")){
+    		if (right.equals("double") || right.equals("long") || right.equals("int")){
+    		  return;
+    		} else {
+    			throw new A2SemanticsException("Cannot assign type "+ right + " to type "+left +" on line "+ n.getBeginLine() );
+    		}
+    	}
+    	
+    	if (left.equals("double")){
+    		if (right.equals("double") || right.equals("long") || right.equals("int")){
+      		  return;
+      		} else {
+      			throw new A2SemanticsException("Cannot assign type "+ right + " to type "+left +" on line "+ n.getBeginLine() );
+      		}
+    	}
+    	
+    	
+    	if (left.equals("long")){
+    		if (right.equals("double") || right.equals("long") || right.equals("int")){
+      		  return;
+      		} else {
+      			throw new A2SemanticsException("Cannot assign type "+ right + " to type "+left +" on line "+ n.getBeginLine() );
+      		}
+    	}
+    	
+    	if (left.equals("byte")){
+    		if (right.equals("int")){
+      		  return;
+      		} else {
+      			throw new A2SemanticsException("Cannot assign type "+ right + " to type "+left +" on line "+ n.getBeginLine() );
+      		}
+    	}
+    	
+    	if (left.equals("short")){
+    		if (right.equals("int")){
+      		  return;
+      		} else {
+      			throw new A2SemanticsException("Cannot assign type "+ right + " to type "+left +" on line "+ n.getBeginLine() );
+      		}
+    	}
+    	
+    	if (left.equals(right)){
+    		return;
+    	}
+    	
+    	throw new A2SemanticsException("Cannot assign type "+ right + " to type "+left +" on line "+ n.getBeginLine() );
     }
     
     
@@ -286,27 +338,32 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     		System.out.println(topExpression);
     		if (topExpression instanceof NameExpr ){
     			//handle nameexpr statement
-    			return "HAHAHAH";
+    			NameExpr e = (NameExpr) topExpression;
+    			String eName = e.getName();
+    			Symbol symb = aboveScope.resolve(eName);
+    			return symb.getType().getName();
     		} else if (topExpression instanceof FieldAccessExpr || topExpression instanceof MethodCallExpr) {
     			//Traverse to the bottom of the expression tree
     			Expression currentExpression = topExpression;
     			
     			while(!(currentExpression instanceof NameExpr) ){
-    				System.out.println("Looping");
     				Expression childExpression = getChildExpression(currentExpression);
     				childExpression.setParentExpression(currentExpression);
     				currentExpression = childExpression;
     			}
+    			
     			Scope currentScope = aboveExpression.getScopeIn();
     			Type currentType = null;
     			//  traverse back up the tree
     			while (currentExpression != null){
-    				//TODO: traverse back up the tree
+    				//traverse back up the tree
     				
     				String name = getStringName(currentExpression);
     				
     				Symbol symb = currentScope.resolve(name);
     				currentType = symb.getType();
+    				
+    			
     				
     				if (currentType instanceof Scope){
     					Scope newScope = (Scope)currentType;
@@ -315,14 +372,13 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     				} else {
     					currentExpression = null;
     				}
-    				//Symbol symb = currentScope.resolve(""); //TODO: Resolve actual string
-    				//TODO: resolve the type which is also a scope and set it to currentScope
     			}
     			
     			
     			resolvedType = currentType.getName();
     			
     		} else{
+    			
     			resolvedType = "LOLOL";
     		}
     	}

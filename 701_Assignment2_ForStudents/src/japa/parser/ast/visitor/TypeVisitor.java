@@ -110,7 +110,7 @@ public class TypeVisitor implements VoidVisitor<Object> {
 		scope.define(new BuiltInTypeSymbol("long",null));
 		scope.define(new BuiltInTypeSymbol("char",null));
 		scope.define(new BuiltInTypeSymbol("String",null));
-		scope.define(new BuiltInTypeSymbol("Void",null));
+		scope.define(new BuiltInTypeSymbol("void",null));
 		
 	}
 	

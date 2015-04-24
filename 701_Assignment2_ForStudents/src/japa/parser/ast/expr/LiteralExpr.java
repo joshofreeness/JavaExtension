@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 Júlio Vilmar Gesser.
+ * Copyright (C) 2007 Jï¿½lio Vilmar Gesser.
  * 
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
@@ -28,5 +28,6 @@ public abstract class LiteralExpr extends Expression {
 
     public LiteralExpr(int line, int column) {
         super(line, column);
+        
     }
 }

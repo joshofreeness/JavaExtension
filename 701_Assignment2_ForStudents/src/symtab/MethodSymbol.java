@@ -6,5 +6,9 @@ public class MethodSymbol extends ScopedSymbol {
 		super(name, type, enclosingScope);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public void setType(Type t){
+		this.type = t;
+	}
 
 }

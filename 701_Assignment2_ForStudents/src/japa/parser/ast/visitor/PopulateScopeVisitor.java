@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import symtab.GlobalScope;
+import symtab.MethodSymbol;
 import symtab.Scope;
 import symtab.Symbol;
 import symtab.Type;
@@ -404,6 +405,12 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
     public void visit(MethodDeclaration n, Object arg) {
     	//System.out.println(n.getName());
     	//System.out.println(n.getScopeIn().getEnclosingScope());
+    	Scope methodScope = n.getScopeIn();
+    	System.out.println(methodScope.getScopeName());
+    	MethodSymbol symb = ((MethodSymbol)methodScope);
+    	Symbol typeSymb = methodScope.resolve(n.getType().toString());
+    	symb.setType((Type)typeSymb);
+    	
     	n.getScopeIn().getEnclosingScope().define((Symbol)n.getScopeIn());
     	//System.out.println();
     	

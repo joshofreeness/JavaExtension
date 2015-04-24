@@ -15,8 +15,8 @@ public class Test1 {
     simple temp = new temp();
 
     public void foo(boolean x) {
-        b = temp.f;
-        a = 1;
+        a = temp.f;
+        b = temp.delta();
         k = "HELLO";
         d = 9;
         x = 9.6;
@@ -32,6 +32,6 @@ class simple {
 
     int f;
 
-    public void delta() {
+    public boolean delta() {
     }
 }

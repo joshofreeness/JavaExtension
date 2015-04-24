@@ -8,8 +8,8 @@ public class Test1 {
 	simple temp = new temp();
 	public void foo(boolean x) {
 		//a = false;  // ERROR: incompatible types
-		b = temp.f; // ERROR: incompatible types
-		a = 1;
+		a = temp.f; // ERROR: incompatible types
+		b = temp.delta();
 		k = "HELLO";
 		d = 9;
 		x = 9.6;
@@ -26,6 +26,6 @@ public class Test1 {
 
 class simple{
 	int f;
-	public void delta(){
+	public boolean delta(){
 	}
 }
