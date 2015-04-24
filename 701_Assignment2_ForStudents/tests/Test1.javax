@@ -1,23 +1,27 @@
 public class Test1 {
 	int a;
+	int re;
 	String k;
 	boolean b;
 	double d;
 	float x;
 	other p;
-	simple temp = new temp();
+	//int ko = false;
+	simple temp;
 	public void foo(boolean x) {
 		//a = false;  // ERROR: incompatible types
 		a = temp.f; // ERROR: incompatible types
+		re = 9;
 		b = temp.delta();
 		k = "HELLO";
-		d = 9;
+		//boolean d = temp.f;
 		x = 9.6;
 		x=4;
 		x=2.5f;
 		//b =temp.delta();
 		//b = 4;
 		//break;
+		System.out.println();
 	}
 	
 	class other{

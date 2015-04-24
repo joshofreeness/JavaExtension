@@ -214,7 +214,7 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
             n.getJavaDoc().accept(this, arg);
         }
         n.getType().accept(this, arg);
-
+       
         for (Iterator<VariableDeclarator> i = n.getVariables().iterator(); i.hasNext();) {
             VariableDeclarator var = i.next();
             var.accept(this, n.getType());
@@ -224,7 +224,29 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
 
     public void visit(VariableDeclarator n, Object arg) {
     	
-        n.getId().accept(this, arg);
+    	Scope scope = n.getScopeIn();
+
+    	Symbol leftType = scope.resolve(((japa.parser.ast.type.Type)arg).toString());
+    	String rightType= null;
+    	if ( n.getInit() == null ){
+    		
+    	}else {
+	    	Expression e = n.getInit();
+	    	//e.setScope(scope);
+	    	
+	    	rightType= findRecusiveType(n.getInit());
+	        //appropriateTypes(leftType, rightType, n);
+	    	if (leftType.getType() == null){
+	    		appropriateTypes(leftType.getName(), rightType, n.getInit());
+	    	}else{
+	    		appropriateTypes(leftType.getType().getName(), rightType, n.getInit());
+	    	}
+	    	
+	        n.getId().accept(this, arg);
+    	}
+    	
+    	
+    	
         if (n.getInit() != null) {
             n.getInit().accept(this, arg);
         }
@@ -263,16 +285,18 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     }
 
     public void visit(AssignExpr n, Object arg) {
+    	
     	Scope current = n.getScopeIn();
     	//current.resolve(n.getTarget().toString());
-    	String leftType = findRecusiveType(n.getTarget(), n);
-        String rightType = findRecusiveType(n.getValue(), n);
+    	
+    	String leftType = findRecusiveType(n.getTarget());
+        String rightType = findRecusiveType(n.getValue());
         appropriateTypes(leftType, rightType, n);
         n.getTarget().accept(this, arg);
         n.getValue().accept(this, arg);
     }
     
-    public void appropriateTypes(String left, String right, AssignExpr n){
+    public void appropriateTypes(String left, String right, Expression n){
     	
     	if (left.equals("float")){
     		if (right.equals("double") || right.equals("long") || right.equals("int")){
@@ -323,19 +347,19 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     }
     
     
-    public String findRecusiveType(Expression topExpression, AssignExpr aboveExpression){
-    	Scope aboveScope = aboveExpression.getScopeIn();
-    	Expression target = aboveExpression.getTarget();
-    	Symbol targetSymbol = aboveScope.resolve(target.toString());
-    	Type targetType = targetSymbol.getType();
+    public String findRecusiveType(Expression topExpression){
+    	Scope aboveScope = topExpression.getScopeIn();
+    	//Expression target = aboveExpression.getTarget();
+    	//Symbol targetSymbol = aboveScope.resolve(target.toString());
+    	//Type targetType = targetSymbol.getType();
     	
     	String resolvedType = "";
     	
+    	
     	//Literal expressions
     	if (topExpression instanceof LiteralExpr){
-    		resolvedType = checkLiteralExpressions(topExpression, targetType, target);
+    		resolvedType = checkLiteralExpressions(topExpression);
     	} else{
-    		System.out.println(topExpression);
     		if (topExpression instanceof NameExpr ){
     			//handle nameexpr statement
     			NameExpr e = (NameExpr) topExpression;
@@ -352,7 +376,7 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     				currentExpression = childExpression;
     			}
     			
-    			Scope currentScope = aboveExpression.getScopeIn();
+    			Scope currentScope = topExpression.getScopeIn();
     			Type currentType = null;
     			//  traverse back up the tree
     			while (currentExpression != null){
@@ -386,7 +410,6 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     			}
     		}
     	}
-    	System.out.println(resolvedType);
     	return resolvedType;
     }
     
@@ -433,7 +456,7 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     	
     }
     
-    public String checkLiteralExpressions(Expression topExpression, Type targetType, Expression target){
+    public String checkLiteralExpressions(Expression topExpression){
     	if (topExpression instanceof IntegerLiteralExpr || topExpression instanceof IntegerLiteralMinValueExpr){
 				return "int";	
 		}
@@ -871,7 +894,8 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
 
         for (Iterator<VariableDeclarator> i = n.getVars().iterator(); i.hasNext();) {
             VariableDeclarator v = i.next();
-            v.accept(this, arg);
+            //System.out.println(n.getScopeIn());
+            v.accept(this, n.getType());
         }
     }
 }

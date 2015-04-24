@@ -406,7 +406,6 @@ public class PopulateScopeVisitor implements VoidVisitor<Object> {
     	//System.out.println(n.getName());
     	//System.out.println(n.getScopeIn().getEnclosingScope());
     	Scope methodScope = n.getScopeIn();
-    	System.out.println(methodScope.getScopeName());
     	MethodSymbol symb = ((MethodSymbol)methodScope);
     	Symbol typeSymb = methodScope.resolve(n.getType().toString());
     	symb.setType((Type)typeSymb);

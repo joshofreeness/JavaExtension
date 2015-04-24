@@ -1,11 +1,11 @@
 package se701;
 
-public class StudentSample extendsAll ExtendMe1, ExtendMe2{
+public class StudentSample extendsAll ExtendMe1, ExtendMe2, ExtendMeSometimes{
 	
 	public ExtendMe1 hi;
 	
 	public static void main(String[] args) {
-		System.out.println(parents+ " " + otherParents);
+		System.out.println(parents+ " " + otherParents + " " + grandparents + " " + otherGrandparents);
 	}
 }
 

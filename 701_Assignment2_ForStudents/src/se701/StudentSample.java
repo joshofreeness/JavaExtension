@@ -1,11 +1,11 @@
 package se701;
 
-public class StudentSample extends ExtendMe2 {
+public class StudentSample extends ExtendMeSometimes {
 
     public ExtendMe1 hi;
 
     public static void main(String[] args) {
-        System.out.println(parents + " " + otherParents);
+        System.out.println(parents + " " + otherParents + " " + grandparents + " " + otherGrandparents);
     }
 }
 
@@ -24,7 +24,7 @@ class ExtendMeAlso {
     protected static int grandparents = 5;
 }
 
-class ExtendMeSometimes {
+class ExtendMeSometimes extends ExtendMe2 {
 
     protected static int otherGrandparents = 7;
 }

@@ -2,6 +2,8 @@ public class Test1 {
 
     int a;
 
+    int re;
+
     String k;
 
     boolean b;
@@ -12,16 +14,17 @@ public class Test1 {
 
     other p;
 
-    simple temp = new temp();
+    simple temp;
 
     public void foo(boolean x) {
         a = temp.f;
+        re = 9;
         b = temp.delta();
         k = "HELLO";
-        d = 9;
         x = 9.6;
         x = 4;
         x = 2.5f;
+        System.out.println();
     }
 
     class other {

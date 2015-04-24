@@ -1,17 +1,20 @@
 public class Test5 {
 	
+	
+	
 	public void a() {
 		int test;// = d(5);
 		
 		//test = d(false)
 		
-		String testAgain = new c(test);
+		//String testAgain = new c(test);
 		//test = new b(testAgain);
 		
 		//test = b(5);
 		//test = c(null);
 		
 		//test = new d(1);
+		
 	}
 	
 	public int b(String num) {

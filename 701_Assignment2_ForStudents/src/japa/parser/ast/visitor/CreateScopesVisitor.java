@@ -242,6 +242,7 @@ public class CreateScopesVisitor implements VoidVisitor<Object> {
 
     public void visit(VariableDeclarator n, Object arg) {
     	n.setScope(currentScope);
+    	//System.out.println(currentScope);
         n.getId().accept(this, arg);
         if (n.getInit() != null) {
             n.getInit().accept(this, arg);

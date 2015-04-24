@@ -2,7 +2,6 @@ public class Test5 {
 
     public void a() {
         int test;
-        String testAgain = new c(test);
     }
 
     public int b(String num) {
