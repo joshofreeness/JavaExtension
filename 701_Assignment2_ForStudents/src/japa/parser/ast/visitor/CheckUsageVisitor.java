@@ -378,8 +378,12 @@ public class CheckUsageVisitor implements VoidVisitor<Object> {
     			resolvedType = currentType.getName();
     			
     		} else{
-    			
-    			resolvedType = "LOLOL";
+    			//if (topExpression)
+    			if (topExpression instanceof ObjectCreationExpr){
+    				ObjectCreationExpr temp = (ObjectCreationExpr) topExpression;
+    			    //System.out.println();
+    			    resolvedType = temp.getType().getName();
+    			}
     		}
     	}
     	System.out.println(resolvedType);

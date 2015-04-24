@@ -1,10 +1,8 @@
 public class Test5 {
 
     public void a() {
-        int test = d(5);
+        int test;
         String testAgain = new c(test);
-        test = new b(testAgain);
-        test = new d(1);
     }
 
     public int b(String num) {
