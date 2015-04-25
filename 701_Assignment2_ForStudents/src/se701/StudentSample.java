@@ -1,6 +1,6 @@
 package se701;
 
-public class StudentSample extends ExtendMeSometimes {
+public class StudentSample extends ExtendMeSometimes implements testing {
 
     public ExtendMe1 hi;
 
@@ -27,4 +27,7 @@ class ExtendMeAlso {
 class ExtendMeSometimes extends ExtendMe2 {
 
     protected static int otherGrandparents = 7;
+}
+
+interface testing {
 }

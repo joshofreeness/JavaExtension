@@ -1,5 +1,5 @@
 \documentclass[twocolumn]{article} 	% use "amsart" instead of "article" for AMSLaTeX format
-\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\usepackage[margin=1.6in]{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
 \geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
 %\geometry{landscape}                		% Activate for for rotated page geometry
 %\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
@@ -7,7 +7,7 @@
 								% TeX will automatically convert eps --> pdf in pdflatex		
 \usepackage{amssymb}
 \usepackage{titling}
-
+\usepackage{url}
 \usepackage{color}
 \usepackage{listings}
 \lstset{ %
@@ -44,57 +44,94 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 \begin{document}
 \maketitle
-\section{Java Extension}
-This chapter discusses the pros and cons of multiple inheritance, the specifics of my implementation and the extra semantics that must be added to support such a feature.
 
+
+\section{Java Extension}
+This chapter discusses the pros and cons of multiple inheritance, the specifics of implementation and the extra semantics that must be added to support such a feature.
 \subsection{Multiple Inheritance}
 
-Multiple Inheritance is implemented in many languages including well known languages such as C++, Python, Perl and Scala. Languages that do not support multiple inheritance are Java, C\# and Ruby. These languages provide similar but not identical functionality though interfaces and similar constructs.% \cite {against}
+Multiple Inheritance is implemented in many languages including well-known languages such as C++, Python, Perl and Scala. Languages that do not support multiple inheritance are Java, C\# and Ruby. These languages provide similar but not identical functionality through interfaces and similar constructs.
 
 
-Ever since multiple inheritance was introduced in 1991 in C++ 2.0 \cite{date} there have been debates concerning the pros and cons of the approach. A common argument against multiple inheritance is that there are very little or no examples of cases where multiple inheritance is required. In an article Waldo states that this may be due to the nature of multiple inheritance as it lends itself more to large systems than small and understandable examples. \cite{examples}  %Can make these reference pages with \cite[p. 5]{} if needed
+Ever since multiple inheritance was introduced in 1991 in C++ 2.0  \cite{date} there have been debates concerning the pros and cons of the approach. 
+
+The main benefit of multiple inheritance is code reuse. In an interface approach if multiple classes were to implement a single interface then code duplication is required to satisfy the interface. However in coding languages with multiple inheritance, all classes that inherit from a class all get the implementation without having to repeat code.
+
+A common argument against multiple inheritance is that there are very little or no examples of cases where multiple inheritance is required. In an article Waldo states that this may be due to the nature of multiple inheritance as it lends itself more to large systems rather than small and understandable examples. \cite{examples}  %Can make these reference pages with \cite[p. 5]{} if needed
 
 
-A common concern when interacting with multiple inheritance is ``The diamond problem". This describes the issue of a child class not knowing which method or field to access if two parents at the same level in the inheritance hierarchy have fields or methods named the same. This is often due to the two parent classes themselves extending a single class and overriding its methods. In this extension I don't allow such a case by checking if parent classes containing methods or fields with the same name.
+A common concern when interacting with multiple inheritance is ``The diamond problem". This describes the issue of a child class being unable to determine which method or field to access if two parents at the same level in the inheritance hierarchy have fields or methods with the same name. This is often due to the two parent classes themselves extending a single class and overriding its methods. In this extension, such a case is not allowed. This is achieved by checking if parent classes contain methods or fields with the same name.
 
 
-A benefit to multiple inheritance is code reuse. In an interface approach if multiple classes were to implement a single interface then they need code duplication to satisfy the interface. However in coding languages with multiple inheritance all classes that inherit from the classes all get the implementation without having to repeat code
+
 
 
 
 \subsection{Feature}
-This feature works similar to other languages. A single class is able to extend multiple classes. 
+This feature is to other languages with multiple inheritance. A single class is able to extend multiple classes. 
 \begin{lstlisting}
 public class A extendsAll B, C {	
 	.....
-	}
+	}//extend two clasees
 	
 public class A extendsAll B, C, D, E, F {
 	.....
-	}	
+	}//extend n classes
 \end{lstlisting}
-As you can see the keyword extendsAll is used to differentiate between the new feature and standard Java code. The feature can allow a user to make a class extend any number of classes. Due to the nature of Java only one class in the list of parent classes may extend another class. %\cite {for}
+As you can see the keyword extendsAll is used to differentiate between the new feature and standard Java code. The feature can allow a user to make a class extend any number of classes. Due to the nature of Java only one class in the list of parent classes may extend another class. 
+
+
+Java 8 introduced the concept of \emph{multiple inheritance of type} which allows a class to implement multiple interfaces.\cite{java8} A similar but not identical feature to the one implemented. This feature also introduces the diamond problem. Java's approach is to throw an exception at compile time if a conflict causes ambiguity.\cite{javaCompiler} For this reason, I have decided to take the same approach and not allow fields or methods that cause ambiguity.
+
+
+This feature does not interfere with Java's existing interface features. Multiple inheritance can be used alongside implementing interfaces, as seen below.
+\begin{lstlisting}
+public class A extendsAll B, C, D, E implements G {
+	...
+}
+\end{lstlisting}
 
 \subsection{Semantics}
-To support this feature in Java some semantic analysis had to be introduced. Most prominently relating to the diamond issue. In order to avoid this error the parent classes in an inheritance tree are scanned and analysed to make sure that they do not contain fields or methods that conflict with one another. If this is observed the compiler will throw an exception.
+To support this feature in Java, some semantic analysis had to be introduced. Most prominently relating to the diamond issue. In order to avoid this error, the parent classes in an inheritance tree are scanned and analysed to make sure that they do not contain fields or methods that conflict with one another. If this is observed the compiler will throw an exception.
 
-In order to create a functioning Java class hierarchy only one class being extended may implement another class. The semantics of this is checked in my compiler and an error is thrown when too many class extend other classes.
+In order to create a functioning Java class hierarchy only one class being extended may implement another class. The semantics of this is checked in my compiler and an error is thrown when too many classes extend other classes.
 
 While implementing my feature I mainly dealt with the ClassOrInterfaceDeclaration node in the AST tree. This node represents a declaration of an interface or a class and has a list of ClassOrInterfaceTypes which are the classes which it extends. Once these nodes are obtained analysis can be performed to first match up ClassOrInterfaceDeclaration nodes with their associated ClassOrInterfaceTypes. This step makes discernible whether the classes to be extended extend any other classes and how many.
 
-The class which is allowed to extend another class is placed on the top of a linear class hierachy and the rest extend the class in a chain, with the ``extendAll" class placed at the bottom.
+The class which is allowed to extend another class is placed on the top of a linear class hierarchy and the rest extend the class in a chain, with the ``extendAll" class placed at the bottom.
 
 Due to the direct manipulation of the ClassOrInterfaceDeclaration nodes from ``javax" code to  correct java code, I was able to produce my source java code with no modification to the dump visitor.
 \section{Semantics}
 This section will discuss some of the semantics implemented that extend further than the feature.
 \subsection{Tokens}
-In a jj file many tokens can be defined, in order to implement this feature I had to compliment the existing tokens with the new \emph{extendAll}  token. After defining this token I could attach information to the ClassOrInterfaceDeclaration node for later reference.
+In a JJ file, many tokens can be defined. In order to implement this feature I had to compliment the existing tokens with the new extendAll  token. Using this token allowed for attaching information to the ClassOrInterfaceDeclaration node for later reference and manipulation.
+\subsection{Visitors}
+Due to the complexity of analysing a language, the code must be analysed in multiple passes. I broke the analysis into five visits. The first visitor performed my source to source and analysed  whether the inheritance hierarchy was correct. My second visitor created scopes and types. My third visitor populated the scopes with methods, fields and variables.  Fourthly, a visitor checked if there were any clashes of names in the class hierarchy and lastly a visitor performed general java semantic analysis.
 \subsection{Expressions}
-Expressions are a major part of any language and the time spent on expression semantics reflects this. 
+Expressions are a major part of any language and the time spent on expression semantics reflects this. The most challenging part of this semantic analysis was finding the type of the right-hand side of an assignment and the type on the left-hand side to compare them, while also checking all methods or fields accessed are in scope.
 
+\begin{lstlisting}
+class G{
+	public int t;
+}
 
+class H{
+	G x = new G();
+	void method(){ 
+		x.t = a.b.c().d;//Example expression
+	}
+	...
+}
+\end{lstlisting}
+
+The example above shows a case where semantic analysis of an expression becomes challenging. Here there are three types of subexpressions that must be considered, a method call expression, a field access expression and a name expression (farthest left only). For each expression, you much resolve the name of the expression, which is also the name of the field or method and determine its type. This type is then used as the scope to resolve the next expression and so on until you have the top level returned type and all subexpressions are resolved correctly. 
+
+The implementation of this has many cases that must be checked for, because it is not known which type of expression the next subexpression will be, it must cast to all expressions until the type can be determined and before any method can be called on the expression.
+
+\subsection{Symbol Table}
+A symbol table is a crucial component of semantic analysis. It keeps track of symbols and their types inside scopes. Using a symbol table enables analysis that can be performed to find if a symbol has been defined in scope and whether it is being assigned the correct type. For implementation, a Hashmap is particularly suitable, with every scope containing their own hashmap.
 
 \bibliography{report}
-\bibliographystyle{ieeetran}
+\bibliographystyle{plain}
 
 \end{document}  
